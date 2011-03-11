@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110310234811) do
+ActiveRecord::Schema.define(:version => 20110311195203) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "role_id"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 20110310234811) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "role_id"
-    t.integer  "critical_proccess_id"
+    t.integer  "critical_process_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

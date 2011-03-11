@@ -1,8 +1,8 @@
 class CriticalProcess < ActiveRecord::Base
   has_many :categories, :dependent => :destroy
   has_many :lessons, :dependent => :destroy
-  has_many :authorizations
-  has_many :roles, :through => :authorizations, :dependent => :destroy, :primary_key => :cp_secondary_id
+  has_many :authorizations, :dependent => :destroy, :primary_key => :cp_secondary_id
+  has_many :roles, :through => :authorizations
   has_and_belongs_to_many :key_terms
   accepts_nested_attributes_for :categories, :reject_if => lambda { |a| a[:category_title].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :lessons, :reject_if => lambda { |a| a[:lesson_title].blank? }, :allow_destroy => true
@@ -13,8 +13,8 @@ class CriticalProcess < ActiveRecord::Base
    #method which is called everything a new critical process is created to create the 2 new roles for that new CP
   def make_roles
     logger.error "CALLING CREATE ROLES"
-    self.roles.create :name => "#{self.cp_title} edit", :edit => true, :review => false
-    self.roles.create :name => "#{self.cp_title} review", :edit => false, :review => true
+    self.roles.create :name => "#{self.cp_title} Edit", :edit => true, :review => false
+    self.roles.create :name => "#{self.cp_title} Review", :edit => false, :review => true
   end
 
   def set_secondary_id
