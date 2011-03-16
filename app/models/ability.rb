@@ -3,9 +3,9 @@ class Ability
 
   def initialize(user)
 
-     can :manage, CriticalProcess do |critical_process|
-        p critical_process
-        user.cps_as_editor.include?(critical_process)
+     can :manage, CriticalProcess
+     if user.cps_as_editor.include?(CriticalProcess)
+
      end
 
     if user.is_admin

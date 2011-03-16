@@ -13,21 +13,20 @@ class CriticalProcess < ActiveRecord::Base
    #method which is called everything a new critical process is created to create the 2 new roles for that new CP
   def make_roles
     logger.error "CALLING CREATE ROLES"
-    self.roles.create :name => "#{self.cp_title} Edit", :edit => true, :review => false
-    self.roles.create :name => "#{self.cp_title} Review", :edit => false, :review => true
+    self.roles.create :name => "#{self.cp_title} Edit", :critical_process_id => self.cp_secondary_id, :edit => true, :review => false
+    self.roles.create :name => "#{self.cp_title} Review",:critical_process_id => self.cp_secondary_id, :edit => false, :review => true
   end
 
   def set_secondary_id
-    logger.error "CALLING SECONDARY ID"
-
       self.update_attribute :cp_secondary_id, self.id
   end
 
   def new_cp
-        logger.error "CALLING NEW CP"
     if self.cp_secondary_id.blank?
       set_secondary_id
       make_roles
+    else
+      add_roles
     end
   end
 

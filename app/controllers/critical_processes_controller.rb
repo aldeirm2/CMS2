@@ -78,6 +78,21 @@ class CriticalProcessesController < ApplicationController
         @critical_process.update_attributes(params[:critical_process])
         redirect_to(@critical_process, :notice => 'Critical process was successfully updated.')
     else
+    #  cp_data = params[:critical_process]
+     # category_data = cp_data.delete "categories_attributes"
+     ## category_data.map { |x,y| y.delete 'id' }
+     # category_data.each do |x , y|
+     #   if y['capability_building_blocks_attributes']
+     #     z = y['capability_building_blocks_attributes']
+     #     z.map { |x, y| y.delete 'id'}
+     #   end
+     # end
+     # lesson_data = cp_data.delete "lessons_attributes"
+     # if lesson_data
+     #   lesson_data.map { |x,y| y.delete 'id' }
+    #  end
+    #  revision = CriticalProcess.create(cp_data)
+     # revision.update_attributes :cp_secondary_id => params[:critical_process]['cp_secondary_id'],  :categories_attributes => category_data, :capability_building_blocks_attributes => cbb_data, :lessons_attributes => lesson_data
       revision = CriticalProcess.create(params[:critical_process])
       revision.update_attribute :cp_secondary_id, params[:critical_process]['cp_secondary_id']
       redirect_to(revision, :notice => 'Revision was successfully updated.')

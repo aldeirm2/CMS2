@@ -27,7 +27,7 @@
      <% end %>
   </p>
 
-      <p><% for role in Role.where(:admin => true) %>
+  <p><% for role in Role.where(:admin => true) %>
         <%= check_box_tag "user[role_as_admin_ids][]", role.id, @user.roles.include?(role) %>
         <%= role.name %>
      <% end %>

@@ -3,6 +3,7 @@
   <%= f.label :category_title, "Category Title" %>
   <%= link_to_remove_fields "remove", f %><br/>
   <%= f.text_area :category_title, :rows => 2 %>
+  <%= f.hidden_field :id, :value => ''  %>
 
 </p>
 <% f.fields_for :capability_building_blocks do |builder| %>
