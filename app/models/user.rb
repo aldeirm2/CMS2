@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :roles_as_editor, :through => :assignments, :class_name => "Role", :source => :role, :conditions => {:edit => true}
   has_many :role_as_admin, :through => :assignments, :class_name => 'Role', :source => :role, :conditions => {:admin => true}
   has_many :assignments
+  has_many :comments
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
@@ -20,6 +21,13 @@ class User < ActiveRecord::Base
     self.roles_as_editor.collect{ |x| CriticalProcess.where(:cp_secondary_id => x.critical_process_id) }.flatten.uniq
   end
 
+  def can_edit(cp)
+    cps_as_editor.include?(cp)
+  end
+
+  def can_review(cp)
+    cps_as_reviewer.include?(cp)
+  end
 
   def roles
       roles_as_editor + roles_as_reviewer + role_as_admin

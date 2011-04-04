@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110316184628) do
+ActiveRecord::Schema.define(:version => 20110329190453) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "role_id"
@@ -52,6 +52,14 @@ ActiveRecord::Schema.define(:version => 20110316184628) do
     t.datetime "updated_at"
   end
 
+  create_table "comments", :force => true do |t|
+    t.text     "comment"
+    t.integer  "user_id"
+    t.integer  "review_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "critical_processes", :force => true do |t|
     t.integer  "cp_secondary_id"
     t.string   "cp_title"
@@ -78,6 +86,13 @@ ActiveRecord::Schema.define(:version => 20110316184628) do
   create_table "lessons", :force => true do |t|
     t.string   "lesson_title"
     t.text     "lesson_definition"
+    t.integer  "critical_process_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "reviews", :force => true do |t|
+    t.string   "stage"
     t.integer  "critical_process_id"
     t.datetime "created_at"
     t.datetime "updated_at"

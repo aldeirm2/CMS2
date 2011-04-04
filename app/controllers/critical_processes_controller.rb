@@ -11,7 +11,7 @@ class CriticalProcessesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @critical_processes }
+      format.xml { render :xml => @critical_processes }
     end
   end
 
@@ -20,9 +20,19 @@ class CriticalProcessesController < ApplicationController
   def show
     @critical_process = CriticalProcess.find(params[:id])
 
+    stage = @critical_process.review.stage
+
+    if stage.to_i == 1
+      @new_stage = '2'
+    elsif stage.to_i == 2
+      @new_stage = "3"
+    elsif stage.to_i == 3
+      @new_stage = "approved"
+    end
+
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @critical_process }
+      format.xml { render :xml => @critical_process }
     end
   end
 
@@ -31,13 +41,13 @@ class CriticalProcessesController < ApplicationController
   def new
     @critical_process = CriticalProcess.new
     2.times do
-       category = @critical_process.categories.build
-       2.times { category.capability_building_blocks.build }
+      category = @critical_process.categories.build
+      2.times { category.capability_building_blocks.build }
     end
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @critical_process }
+      format.xml { render :xml => @critical_process }
     end
   end
 
@@ -54,16 +64,16 @@ class CriticalProcessesController < ApplicationController
     #if params[:critical_process]["cp_secondary_id"].blank?
     #  @edit_role = Role.new(:name => "#{params[:critical_process]['cp_title']} Edit", :edit => true, :review => false, :admin => false)
     #  @review_role = Role.new(:name => "#{params[:critical_process]['cp_title']} Review", :edit => false, :review => true, :admin => false)
-   #   @critical_process.roles = [@edit_role, @review_role]
-  #  end
+    #   @critical_process.roles = [@edit_role, @review_role]
+    #  end
 
     respond_to do |format|
       if @critical_process.save
         format.html { redirect_to(@critical_process, :notice => 'Critical process was successfully created.') }
-        format.xml  { render :xml => @critical_process, :status => :created, :location => @critical_process }
+        format.xml { render :xml => @critical_process, :status => :created, :location => @critical_process }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @critical_process.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @critical_process.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -75,24 +85,24 @@ class CriticalProcessesController < ApplicationController
     params[:critical_process][:key_term_ids] ||= []
     @critical_process = CriticalProcess.find(params[:id])
     if params[:critical_process]["cp_secondary_id"].blank?
-        @critical_process.update_attributes(params[:critical_process])
-        redirect_to(@critical_process, :notice => 'Critical process was successfully updated.')
+      @critical_process.update_attributes(params[:critical_process])
+      redirect_to(@critical_process, :notice => 'Critical process was successfully updated.')
     else
-    #  cp_data = params[:critical_process]
-     # category_data = cp_data.delete "categories_attributes"
-     ## category_data.map { |x,y| y.delete 'id' }
-     # category_data.each do |x , y|
-     #   if y['capability_building_blocks_attributes']
-     #     z = y['capability_building_blocks_attributes']
-     #     z.map { |x, y| y.delete 'id'}
-     #   end
-     # end
-     # lesson_data = cp_data.delete "lessons_attributes"
-     # if lesson_data
-     #   lesson_data.map { |x,y| y.delete 'id' }
-    #  end
-    #  revision = CriticalProcess.create(cp_data)
-     # revision.update_attributes :cp_secondary_id => params[:critical_process]['cp_secondary_id'],  :categories_attributes => category_data, :capability_building_blocks_attributes => cbb_data, :lessons_attributes => lesson_data
+      #  cp_data = params[:critical_process]
+      # category_data = cp_data.delete "categories_attributes"
+      ## category_data.map { |x,y| y.delete 'id' }
+      # category_data.each do |x , y|
+      #   if y['capability_building_blocks_attributes']
+      #     z = y['capability_building_blocks_attributes']
+      #     z.map { |x, y| y.delete 'id'}
+      #   end
+      # end
+      # lesson_data = cp_data.delete "lessons_attributes"
+      # if lesson_data
+      #   lesson_data.map { |x,y| y.delete 'id' }
+      #  end
+      #  revision = CriticalProcess.create(cp_data)
+      # revision.update_attributes :cp_secondary_id => params[:critical_process]['cp_secondary_id'],  :categories_attributes => category_data, :capability_building_blocks_attributes => cbb_data, :lessons_attributes => lesson_data
       revision = CriticalProcess.create(params[:critical_process])
       revision.update_attribute :cp_secondary_id, params[:critical_process]['cp_secondary_id']
       redirect_to(revision, :notice => 'Revision was successfully updated.')
@@ -108,7 +118,7 @@ class CriticalProcessesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(critical_processes_url) }
-      format.xml  { head :ok }
+      format.xml { head :ok }
     end
   end
 
@@ -131,7 +141,7 @@ class CriticalProcessesController < ApplicationController
     key_terms_ids = params[:key_terms]
 
     unless key_terms_ids.blank?
-      key_terms_ids.each do | key_term_id|
+      key_terms_ids.each do |key_term_id|
         key_term = KeyTerm.find(key_term_id)
         if @critical_process.has_key_term(key_term)
           logger.info "removing key term #{key_term.id} from critical proccess"

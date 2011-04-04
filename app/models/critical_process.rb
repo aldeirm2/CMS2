@@ -4,17 +4,28 @@ class CriticalProcess < ActiveRecord::Base
   has_many :authorizations, :dependent => :destroy, :primary_key => :cp_secondary_id
   has_many :roles, :through => :authorizations
   has_and_belongs_to_many :key_terms
+  has_one :review, :dependent => :destroy
   accepts_nested_attributes_for :categories, :reject_if => lambda { |a| a[:category_title].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :lessons, :reject_if => lambda { |a| a[:lesson_title].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :key_terms, :reject_if => lambda {|a| a[:term].blank? }
 
-  after_create :new_cp
+  after_create :new_cp, :create_review
 
    #method which is called everything a new critical process is created to create the 2 new roles for that new CP
   def make_roles
     logger.error "CALLING CREATE ROLES"
     self.roles.create :name => "#{self.cp_title} Edit", :critical_process_id => self.cp_secondary_id, :edit => true, :review => false
     self.roles.create :name => "#{self.cp_title} Review",:critical_process_id => self.cp_secondary_id, :edit => false, :review => true
+  end
+
+  def create_review
+    Review.create :stage => "1", :critical_process_id => self.id
+  end
+
+  def add_roles
+    #add roles to new version of a cp
+    self.roles << Role.where(:critical_process_id => self.cp_secondary_id, :edit => true)
+    self.roles << Role.where(:critical_process_id => self.cp_secondary_id, :review => true)
   end
 
   def set_secondary_id

@@ -1,6 +1,14 @@
 CMS::Application.routes.draw do
 
 
+  get "review/show"
+
+  get "review/edit"
+
+  post "review/update"
+
+  resources :comments
+
   devise_for :users
 
   resources :key_terms
@@ -15,6 +23,12 @@ CMS::Application.routes.draw do
   match "/dynamic_create" => "key_terms#dynamic_create", :as => :dynamic_create
 
   root :to => "critical_processes#index"
+
+  resources :review, :only => [:show, :update]
+
+
+ # match 'review/:id' => 'review#show'
+#  match 'review/update/:id' => 'review#update'
 
 
   # The priority is based upon order of creation:
