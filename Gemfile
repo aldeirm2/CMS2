@@ -8,8 +8,8 @@ gem 'rails', '3.0.3'
 gem 'mysql2'
 gem "nested_form"
 gem 'jquery-rails', '>= 0.2.6'
-gem 'devise'
 gem "cancan"
+gem 'authlogic'
 
 
 # Use unicorn as the web server

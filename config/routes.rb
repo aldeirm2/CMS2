@@ -9,7 +9,7 @@ CMS::Application.routes.draw do
 
   resources :comments
 
-  devise_for :users
+ # devise_for :users
 
   resources :key_terms
 
@@ -17,6 +17,7 @@ CMS::Application.routes.draw do
     member do
       post :key_term_add
       post :key_term_remove
+      get :all_versions
     end
   end
 

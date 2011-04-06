@@ -7,8 +7,8 @@ class User < ActiveRecord::Base
   has_many :assignments
   has_many :comments
 
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+#  devise :database_authenticatable, :registerable,
+#         :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :roles_as_reviewer_ids, :roles_as_editor_ids, :role_as_admin_ids
@@ -41,7 +41,16 @@ class User < ActiveRecord::Base
     end
   end
 
-  def can_edit?(cp)
-    self.roles.exists?(:id => cp.role_ids)
+  def has_access_to(cp)
+    if can_review(cp) || can_edit(cp)
+      true
+    end
+
+  end
+
+  def authorised
+    if self.roles.size > 0
+      true
+    end
   end
 end

@@ -11,6 +11,8 @@
           </ul>
         </div>
     <% end %>
+
+  <%= f.hidden_field :lock_version %>
   <span id='cp_description'>
    <% if @critical_process.review && @critical_process.review.stage == 'approved' %>
     <div class="field">

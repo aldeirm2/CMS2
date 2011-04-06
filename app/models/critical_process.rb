@@ -1,7 +1,7 @@
 class CriticalProcess < ActiveRecord::Base
   has_many :categories, :dependent => :destroy
   has_many :lessons, :dependent => :destroy
-  has_many :authorizations, :dependent => :destroy, :primary_key => :cp_secondary_id
+  has_many :authorizations
   has_many :roles, :through => :authorizations
   has_and_belongs_to_many :key_terms
   has_one :review, :dependent => :destroy
@@ -10,6 +10,10 @@ class CriticalProcess < ActiveRecord::Base
   accepts_nested_attributes_for :key_terms, :reject_if => lambda {|a| a[:term].blank? }
 
   after_create :new_cp, :create_review
+
+  before_destroy :role_check
+
+  #scope :approved, :conditions => { :review.stage => 'approved'}
 
    #method which is called everything a new critical process is created to create the 2 new roles for that new CP
   def make_roles
@@ -59,6 +63,18 @@ class CriticalProcess < ActiveRecord::Base
       end
     end
     return list_of_users
+  end
+
+  def role_check
+    cp_roles = self.roles
+    number_of_roles = cp_roles.size
+
+    number_of_roles.times do |i|
+      if cp_roles[i - 1].critical_processes.size == 1
+        cp_roles[i - 1].destroy
+      end
+    end
+    self.authorizations.each {|x| x.destroy}
   end
 
 end
