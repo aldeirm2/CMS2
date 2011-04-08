@@ -12,18 +12,18 @@
         </div>
     <% end %>
 
-  <%= f.hidden_field :lock_version %>
-  <span id='cp_description'>
+    <%= f.hidden_field :lock_version %>
+    <span id='cp_description'>
    <% if @critical_process.review && @critical_process.review.stage == 'approved' %>
     <div class="field">
       <%= f.hidden_field :cp_secondary_id %>
     </div>
    <% end %>
-    <div class="field">
-      <%= f.label :cp_title %>
-      <br/>
-      <%= f.text_field :cp_title %>
-    </div>
+      <div class="field">
+        <%= f.label :cp_title %>
+        <br/>
+        <%= f.text_field :cp_title %>
+      </div>
     <div class="field">
       <%= f.label :cp_intro %>
       <br/>
@@ -36,7 +36,7 @@
     </div>
   </span>
 
-  <span id='scopes'>
+    <span id='scopes'>
     <div class="field">
       <%= f.label :in_scope %>
       <br/>
@@ -49,7 +49,7 @@
     </div>
   </span>
 
-  <span id="categories">
+    <span id="categories">
     <div class="categories">
       <% f.fields_for :categories do |builder| %>
           <%= render 'category_fields', :f => builder %>
@@ -58,7 +58,7 @@
     </div>
   </span>
 
-  <span id="lessons">
+    <span id="lessons">
     <div class="lessons">
       <% f.fields_for :lessons do |builder| %>
           <%= render 'lesson_fields', :f => builder %>

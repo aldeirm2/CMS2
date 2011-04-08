@@ -1,16 +1,13 @@
 class CriticalProcessesController < ApplicationController
 
-  before_filter :authenticate_user!
+  before_filter :require_user
   authorize_resource
-
 
   # GET /critical_processes
   # GET /critical_processes.xml
   def index
     #@critical_processes = CriticalProcess.all.uniq_by {|x| x.cp_secondary_id }
-
     @critical_processes = []
-
     CriticalProcess.all.uniq_by { |x| x.cp_secondary_id }.each do |x|
       cps = CriticalProcess.where(:cp_secondary_id => x.cp_secondary_id)
       if current_user.has_access_to(cps.first) || current_user.is_admin
@@ -31,6 +28,7 @@ class CriticalProcessesController < ApplicationController
   # GET /critical_processes/1.xml
   def show
     @critical_process = CriticalProcess.find(params[:id])
+    @comments = @critical_process.review.comments.order('updated_at DESC')
 
     stage = @critical_process.review.stage
 
@@ -73,15 +71,9 @@ class CriticalProcessesController < ApplicationController
   def create
     @critical_process = CriticalProcess.new(params[:critical_process])
 
-    #if params[:critical_process]["cp_secondary_id"].blank?
-    #  @edit_role = Role.new(:name => "#{params[:critical_process]['cp_title']} Edit", :edit => true, :review => false, :admin => false)
-    #  @review_role = Role.new(:name => "#{params[:critical_process]['cp_title']} Review", :edit => false, :review => true, :admin => false)
-    #   @critical_process.roles = [@edit_role, @review_role]
-    #  end
-
     respond_to do |format|
       if @critical_process.save
-        format.html { redirect_to(@critical_process, :notice => 'Critical process was successfully created.') }
+        format.html { redirect_to(@critical_process, :notice => 'New Critical Process Successfully Created.') }
         format.xml { render :xml => @critical_process, :status => :created, :location => @critical_process }
       else
         format.html { render :action => "new" }
@@ -100,21 +92,6 @@ class CriticalProcessesController < ApplicationController
       @critical_process.update_attributes(params[:critical_process])
       redirect_to(@critical_process, :notice => 'Critical process was successfully updated.')
     else
-      #  cp_data = params[:critical_process]
-      # category_data = cp_data.delete "categories_attributes"
-      ## category_data.map { |x,y| y.delete 'id' }
-      # category_data.each do |x , y|
-      #   if y['capability_building_blocks_attributes']
-      #     z = y['capability_building_blocks_attributes']
-      #     z.map { |x, y| y.delete 'id'}
-      #   end
-      # end
-      # lesson_data = cp_data.delete "lessons_attributes"
-      # if lesson_data
-      #   lesson_data.map { |x,y| y.delete 'id' }
-      #  end
-      #  revision = CriticalProcess.create(cp_data)
-      # revision.update_attributes :cp_secondary_id => params[:critical_process]['cp_secondary_id'],  :categories_attributes => category_data, :capability_building_blocks_attributes => cbb_data, :lessons_attributes => lesson_data
       revision = CriticalProcess.create(params[:critical_process])
       revision.update_attribute :cp_secondary_id, params[:critical_process]['cp_secondary_id']
       redirect_to(revision, :notice => 'Revision was successfully updated.')

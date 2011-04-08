@@ -1,4 +1,6 @@
 class KeyTermsController < ApplicationController
+
+  before_filter :require_user
   # GET /key_terms
   # GET /key_terms.xml
   def index

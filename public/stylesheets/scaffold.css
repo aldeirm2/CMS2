@@ -123,3 +123,20 @@ a {
 #non_approved_cp {
     color:red;
 }
+
+#navigation_header {
+  border-bottom: medium solid black;
+  background-image: url('/images/ivi_quote.jpg');
+  height: 70px;
+}
+#user_options {
+	text-align: right;
+	font-size: large;
+}
+
+#main_link {
+	text-align:left;
+	font-size: large;
+	margin-top: -19px;
+	border-bottom: medium solid;
+}

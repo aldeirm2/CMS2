@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  acts_as_authentic
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable, :lockable and :timeoutable
   has_many :roles_as_reviewer, :through => :assignments, :class_name => 'Role', :source => :role, :conditions => {:review => true}
@@ -11,14 +12,14 @@ class User < ActiveRecord::Base
 #         :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :roles_as_reviewer_ids, :roles_as_editor_ids, :role_as_admin_ids
+ # attr_accessible :email, :password, :roles_as_reviewer_ids, :roles_as_editor_ids, :role_as_admin_ids
 
   def cps_as_editor
     self.roles_as_editor.collect{ |x| CriticalProcess.where(:cp_secondary_id => x.critical_process_id) }.flatten.uniq
   end
 
   def cps_as_reviewer
-    self.roles_as_editor.collect{ |x| CriticalProcess.where(:cp_secondary_id => x.critical_process_id) }.flatten.uniq
+    self.roles_as_reviewer.collect{ |x| CriticalProcess.where(:cp_secondary_id => x.critical_process_id) }.flatten.uniq
   end
 
   def can_edit(cp)

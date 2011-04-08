@@ -30,83 +30,85 @@
 
 <ol>
   <% for category in @critical_process.categories %>
-    <li>
-      <%=h category.category_title %>
-      <ul>
-        <% for cbb in category.capability_building_blocks %>
-            <li> <%=h cbb.cbb_title %></li>
-            <li> <%=h cbb.cbb_definition %></li>
-        <% end %>
-      </ul>
-    </li>
+      <li>
+        <%= h category.category_title %>
+        <ul>
+          <% for cbb in category.capability_building_blocks %>
+              <li> <%= h cbb.cbb_title %></li>
+              <li> <%= h cbb.cbb_definition %></li>
+          <% end %>
+        </ul>
+      </li>
   <% end %>
 </ol>
 <b>Lessons Learned:</b>
 <ol>
   <% for lesson in @critical_process.lessons %>
-    <li>
-      <%=h lesson.lesson_title %>
-      <%=h lesson.lesson_definition %>
-    </li>
+      <li>
+        <%= h lesson.lesson_title %>
+        <%= h lesson.lesson_definition %>
+      </li>
   <% end %>
 </ol>
 
 <p>
   <b>Key term's</b>
   <% if @critical_process.key_terms.count > 0 %>
-     <%= @critical_process.key_terms.collect {|key_term| link_to(key_term.term, key_term)}.join(", ") %>
+      <%= @critical_process.key_terms.collect { |key_term| link_to(key_term.term, key_term) }.join(", ") %>
   <% else %>
-     This process has no Key terms
+      This process has no Key terms
   <% end %>
 </p>
 <% if current_user.is_admin || current_user.can_review(@critical_process) || current_user.can_edit(@critical_process) %>
-<div id="comments">
+    <div id="comments">
 
-  <!-- display all comments for this cp, in order of date added, with the user that wrote them and .  -->
-  <% for comment in @critical_process.review.comments.order('updated_at DESC') %>
-      <hr><br/>
-      <div id="comment">
-        <%=h comment.comment %> <br/>
+      <!-- display all comments for this cp, in order of date added, with the user that wrote them and .  -->
+      <% for comment in @comments %>
+          <hr>
+          <br/>
+
+          <div id="comment">
+            <%= h comment.comment %> <br/>
         <span id="comment_email">
-        By: <%=h comment.user.email%><br/>
+        By: <%= h comment.user.email %><br/>
         </span>
-        Left on: <%=h comment.updated_at %>
+            Left on: <%= h comment.updated_at %>
 
-      </div>
-  <% end %>
+          </div>
+      <% end %>
 
 
-</div>
+    </div>
+
+    <div id="comment_form">
+
+      <!-- here we will have an if statement that will check to see if the user if a reviewer or editor and if so allow to leave a comment, this can be a pop up window that contains the form and calls an ajax call to add the comment.  -->
+
+      <% @comment = Comment.new %>
+      <%= form_for(@comment) do |f| %>
+
+
+          <div class="field">
+            <%= f.label :comment %>
+            <br/>
+            <%= f.text_area :comment %>
+          </div>
+          <div class="field">
+            <%= f.hidden_field :review_id, :value => @critical_process.review.id %>
+          </div>
+          <div class="field">
+            <%= f.hidden_field :user_id, :value => current_user.id %>
+          </div>
+          <div class="actions">
+            <%= f.submit %>
+          </div>
+      <% end %>
+
+    </div>
 <% end %>
-<div id="comment_form">
-
-<!-- here we will have an if statement that will check to see if the user if a reviewer or editor and if so allow to leave a comment, this can be a pop up window that contains the form and calls an ajax call to add the comment.  -->
-
-  <% @comment = Comment.new %>
-  <%= form_for(@comment) do |f| %>
-
-
-      <div class="field">
-        <%= f.label :comment %>
-        <br/>
-        <%= f.text_area :comment %>
-      </div>
-      <div class="field">
-        <%= f.hidden_field :review_id, :value => @critical_process.review.id %>
-      </div>
-      <div class="field">
-        <%= f.hidden_field :user_id, :value => current_user.id %>
-      </div>
-      <div class="actions">
-        <%= f.submit %>
-      </div>
-  <% end %>
-
-</div>
-
 <div id='review_form'>
 
-<!-- have a button that's only visible to admins and editors which depending on the stage of the CP allows them to approve it to the next stage. -->
+  <!-- have a button that's only visible to admins and editors which depending on the stage of the CP allows them to approve it to the next stage. -->
   <% @review = @critical_process.review %>
   <%= form_for(@review) do |f| %>
 

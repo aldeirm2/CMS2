@@ -1,0 +1,8 @@
+<p><%= @user.name %>,</p>
+
+<p>This is an automated email to notify you of a comment left on a critical process for which you hold a role for, please click on the link below to take you to see the comment.</p>
+
+<p>Comment: <%= @comment.comment %></p>
+<p>By: <%= @comment.user.email %></p>
+
+<p><%= link_to "Show Critical Process", critical_process_path(@cp) %></p>

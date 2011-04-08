@@ -5,10 +5,10 @@
 <h2>Your Submission:</h2>
 <pre>
 <% params[:critical_process].each do |name, value| %>
-  <%=h name.humanize %>: <%=h value %>
+  <%= h name.humanize %>: <%= h value %>
 <% end %>
 </pre>
 
 <h2>Edit Product:</h2>
 
-        <%= render 'form' %>
+<%= render 'form' %>

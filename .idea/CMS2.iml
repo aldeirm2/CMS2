@@ -42,6 +42,12 @@
     </requirement>
     <requirement>
       <requirement>
+        <dependency name="nifty-generators" version="0" bound="GREATER_OR_EQUAL" git="false" path="false" doRequire="true" />
+      </requirement>
+      <source from="Gemfile" />
+    </requirement>
+    <requirement>
+      <requirement>
         <dependency name="rails" version="3.0.3" bound="EQUAL" git="false" path="false" doRequire="true" />
       </requirement>
       <source from="Gemfile" />
@@ -84,6 +90,8 @@
     <orderEntry type="library" scope="PROVIDED" name="[gem] tzinfo (v0.3.26, /Library/Ruby/Gems/1.8/gems/tzinfo-0.3.26)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] activemodel (v3.0.3, /Library/Ruby/Gems/1.8/gems/activemodel-3.0.3)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] builder (v2.1.2, /Library/Ruby/Gems/1.8/gems/builder-2.1.2)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] nifty-generators (v0.4.6, /Library/Ruby/Gems/1.8/gems/nifty-generators-0.4.6)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] arel (v2.0.9, /Library/Ruby/Gems/1.8/gems/arel-2.0.9)" level="application" />
   </component>
 </module>
 
