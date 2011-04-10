@@ -35,6 +35,14 @@ $(function() {
 // more blah blah
 })
 
+function addToTopic(value) {
+
+    var CurrentValue = $('[id=comment_topics]').val();
+    CurrentValue = CurrentValue + ", " + value;
+    $('[id=comment_topics]').val(CurrentValue);
+
+}
+
 
 // This function handles style and display changes for each next button click
 

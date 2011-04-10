@@ -56,10 +56,18 @@ class CriticalProcess < ActiveRecord::Base
   end
 
   def editors
-    list_of_users = Array.new
     for role in self.roles
       if role.edit
-         list_of_users << role.users
+         list_of_users = role.users
+      end
+    end
+    return list_of_users
+  end
+
+  def reviewers
+    for role in self.roles
+      if role.review
+         list_of_users = role.users
       end
     end
     return list_of_users

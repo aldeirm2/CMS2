@@ -50,9 +50,11 @@ class CriticalProcessesController < ApplicationController
   # GET /critical_processes/new.xml
   def new
     @critical_process = CriticalProcess.new
+    authorize! :new, @critical_process
     2.times do
       category = @critical_process.categories.build
       2.times { category.capability_building_blocks.build }
+
     end
 
     respond_to do |format|
@@ -64,6 +66,7 @@ class CriticalProcessesController < ApplicationController
   # GET /critical_processes/1/edit
   def edit
     @critical_process = CriticalProcess.find(params[:id])
+    authorize! :edit, @critical_process
   end
 
   # POST /critical_processes

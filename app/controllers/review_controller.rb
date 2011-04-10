@@ -10,6 +10,8 @@ class ReviewController < ApplicationController
 
   def edit
     @review = Review.find(params[:id])
+    @critical_process = @review.critical_process
+    authorize! :edit, @critical_process
   end
 
   def update

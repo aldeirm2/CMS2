@@ -37,4 +37,8 @@ class UserMailer < ActionMailer::Base
       end
     end
   end
+
+  def test_mail
+    mail(:to => "aldeirm2@gmail.com", :subject => "Test Test")
+  end
 end

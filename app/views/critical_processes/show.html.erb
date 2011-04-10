@@ -5,7 +5,7 @@
 
 <p>
   <b>Cp title:</b>
-  <%= @critical_process.cp_title %>
+  <%= @critical_process.cp_title %> <input type="checkbox" onchange="addToTopic('Title');">
 </p>
 
 <p>
@@ -98,6 +98,9 @@
           </div>
           <div class="field">
             <%= f.hidden_field :user_id, :value => current_user.id %>
+          </div>
+          <div class="field">
+            <%= f.hidden_field :topics, :id => "comment_topics", :value => '' %>
           </div>
           <div class="actions">
             <%= f.submit %>
