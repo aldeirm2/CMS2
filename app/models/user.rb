@@ -1,15 +1,11 @@
 class User < ActiveRecord::Base
   acts_as_authentic
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable, :lockable and :timeoutable
+
   has_many :roles_as_reviewer, :through => :assignments, :class_name => 'Role', :source => :role, :conditions => {:review => true}
   has_many :roles_as_editor, :through => :assignments, :class_name => "Role", :source => :role, :conditions => {:edit => true}
   has_many :role_as_admin, :through => :assignments, :class_name => 'Role', :source => :role, :conditions => {:admin => true}
   has_many :assignments
   has_many :comments
-
-#  devise :database_authenticatable, :registerable,
-#         :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
  # attr_accessible :email, :password, :roles_as_reviewer_ids, :roles_as_editor_ids, :role_as_admin_ids

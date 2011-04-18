@@ -1,19 +1,12 @@
-<h1>Listing critical_processes</h1>
+<h1>IT-CMF Critical Possesses</h1>
 
 <table>
   <tr>
     <% if current_user.authorised %>
         <th>Stage</th>
     <% end %>
-    <th>Cp secondary</th>
-    <th>Cp title</th>
-    <th>Cp intro</th>
-    <th>Cp definition</th>
-    <th>In scope</th>
-    <th>Out scope</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Secondary ID</th>
+    <th>Title</th>
   </tr>
 
   <% @critical_processes.each do |critical_process| %>
@@ -24,10 +17,6 @@
         <% end %>
         <td><%= critical_process.cp_secondary_id %></td>
         <td><%= critical_process.cp_title %></td>
-        <td><%= critical_process.cp_intro %></td>
-        <td><%= critical_process.cp_definition %></td>
-        <td><%= critical_process.in_scope %></td>
-        <td><%= critical_process.out_scope %></td>
 
         <td><%= link_to 'Show', critical_process %></td>
         <% if current_user.has_access_to(critical_process) || current_user.is_admin %>

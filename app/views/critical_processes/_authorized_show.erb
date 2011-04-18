@@ -1,0 +1,150 @@
+<p>
+  <b>Cp secondary:</b>
+  <%= @critical_process.cp_secondary_id %>
+</p>
+
+<p>
+  <b>Cp title:</b> <input type="checkbox" class="topic-checkbox" value="Title" >
+  <%= @critical_process.cp_title %>
+</p>
+
+<p>
+  <b>Cp intro:</b> <input type="checkbox" class="topic-checkbox" value="Intro" >
+  <%= @critical_process.cp_intro %>
+</p>
+
+<p>
+  <b>Cp definition:</b> <input type="checkbox" class="topic-checkbox" value="Definition" >
+  <%= @critical_process.cp_definition %>
+</p>
+
+<p>
+  <b>In scope:</b> <input type="checkbox" class="topic-checkbox" value="In-Scope" >
+  <%= @critical_process.in_scope %>
+</p>
+
+<p>
+  <b>Out scope:</b> <input type="checkbox" class="topic-checkbox" value="Out-Scope" >
+  <%= @critical_process.out_scope %>
+</p>
+
+<ol>
+  <% for category in @critical_process.categories %>
+      <li>
+        <%= h category.category_title %> <input type="checkbox" class="topic-checkbox" value="Category: <%= category.category_title  %>" >
+        <ul>
+          <% for cbb in category.capability_building_blocks %>
+              <li> <%= h cbb.cbb_title %></li> <input type="checkbox" class="topic-checkbox" value="CBB: <%= cbb.cbb_title  %>" >
+              <li> <%= h cbb.cbb_definition %></li>
+          <% end %>
+        </ul>
+      </li>
+  <% end %>
+</ol>
+<b>Lessons Learned:</b>
+<ol>
+  <% for lesson in @critical_process.lessons %>
+      <li>
+        <%= h lesson.lesson_title %> <input type="checkbox" class="topic-checkbox" value="Category: <%= lesson.lesson_title  %>" >
+        <%= h lesson.lesson_definition %>
+      </li>
+  <% end %>
+</ol>
+
+<p>
+  <b>Key term's</b>
+  <% if @critical_process.key_terms.count > 0 %>
+      <%= @critical_process.key_terms.collect { |key_term| link_to(key_term.term, key_term) }.join(", ") %>
+  <% else %>
+      This process has no Key terms
+  <% end %>
+</p>
+
+
+
+    <div id="comments">
+
+      <!-- display all comments for this cp, in order of date added, with the user that wrote them and .  -->
+      <% for comment in @comments %>
+          <hr>
+          <br/>
+
+          <div id="comment">
+            <%= h comment.comment %> <br/>
+            Relating to the following topics: <%= h comment.topics %><br/>
+            By: <%= h comment.user.email %>
+            <br/>
+            Left on: <%= h comment.updated_at %>
+
+          </div>
+      <% end %>
+
+
+    </div>
+
+    <div id="comment_form">
+
+      <!-- here we will have an if statement that will check to see if the user if a reviewer or editor and if so allow to leave a comment, this can be a pop up window that contains the form and calls an ajax call to add the comment.  -->
+
+      <% @comment = Comment.new %>
+      <%= form_for(@comment) do |f| %>
+
+
+          <div class="field">
+            <%= f.label :comment %>
+            <br/>
+            <%= f.text_area :comment %>
+          </div>
+          <div class="field">
+            <%= f.hidden_field :review_id, :value => @critical_process.review.id %>
+          </div>
+          <div class="field">
+            <%= f.hidden_field :user_id, :value => current_user.id %>
+          </div>
+          <div class="field">
+            <%= f.hidden_field :topics, :id => "comment_topics", :value => '' %>
+          </div>
+          <div class="actions">
+            <%= f.submit %>
+          </div>
+      <% end %>
+
+    </div>
+
+<% if current_user.can_review(@critical_process) || current_user.is_admin%>
+<div id='review_form'>
+
+  <!-- have a button that's only visible to admins and editors which depending on the stage of the CP allows them to approve it to the next stage. -->
+  <% @review = @critical_process.review %>
+  <%= form_for(@review) do |f| %>
+
+
+      <% if @review.stage == 'approved' %>
+
+          <div class="field">
+            <%= f.hidden_field :stage, :value => '3' %>
+          </div>
+          This CP has been Approved.
+          <div class="actions">
+            <%= f.submit "Pull back CP to level 3" %>
+          </div>
+      <% else %>
+
+          <div class="field">
+            <%= f.hidden_field :stage, :value => @new_stage %>
+
+          </div>
+          <div class="actions">
+
+            <%= f.submit "Approve CP to level #{@new_stage}" %>
+          </div>
+      <% end %>
+  <% end %>
+</div>
+<% end %>
+<% if current_user.is_admin || current_user.can_edit(@critical_process) %>
+<%= link_to 'Edit', edit_critical_process_path(@critical_process) %> |
+<% end %>
+<%= link_to 'Back', critical_processes_path %>
+<%= link_to 'show all versions', all_versions_critical_process_path(@critical_process.cp_secondary_id) %>
+

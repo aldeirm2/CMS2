@@ -1,0 +1,23 @@
+<h1>Listing macro_processes</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @macro_processes.each do |macro_process| %>
+  <tr>
+    <td><%= macro_process.name %></td>
+    <td><%= link_to 'Show', macro_process %></td>
+    <td><%= link_to 'Edit', edit_macro_process_path(macro_process) %></td>
+    <td><%= link_to 'Destroy', macro_process, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Macro process', new_macro_process_path %>

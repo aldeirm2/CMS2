@@ -28,6 +28,8 @@ class CriticalProcessesController < ApplicationController
   # GET /critical_processes/1.xml
   def show
     @critical_process = CriticalProcess.find(params[:id])
+    authorize! :read, @critical_process
+
     @comments = @critical_process.review.comments.order('updated_at DESC')
 
     stage = @critical_process.review.stage
@@ -50,13 +52,11 @@ class CriticalProcessesController < ApplicationController
   # GET /critical_processes/new.xml
   def new
     @critical_process = CriticalProcess.new
-    authorize! :new, @critical_process
     2.times do
       category = @critical_process.categories.build
       2.times { category.capability_building_blocks.build }
-
     end
-
+    authorize! :new, @critical_process
     respond_to do |format|
       format.html # new.html.erb
       format.xml { render :xml => @critical_process }

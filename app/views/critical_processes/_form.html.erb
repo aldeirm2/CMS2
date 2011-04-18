@@ -1,4 +1,37 @@
 <%= form_for(@critical_process) do |f| %>
+    <table border="1" cellpadding="5" cellspacing="0" id="HeaderTable">
+
+      <tr>
+        <td id="HeaderTableStep1" style="background-color:Yellow">
+
+          Step 1: Basic Information
+        </td>
+
+        <td id="HeaderTableStep2" style="background-color:Silver">
+
+          Step 2: In-Scope & Out-Scope
+        </td>
+
+        <td id="HeaderTableStep3" style="background-color:Silver">
+
+          Step 3:&nbsp; Categories & CBB's
+        </td>
+
+        <td id="HeaderTableStep4" style="background-color:Silver">
+
+          Step 4: Lessons Learned
+        </td>
+
+        <td id="HeaderTableStep5" style="background-color:Silver">
+
+          Step:5 Key Terms
+        </td>
+
+      </tr>
+    </table>
+    <br/>
+
+
     <% if @critical_process.errors.any? %>
         <div id="error_explanation">
           <h2><%= pluralize(@critical_process.errors.count, "error") %> prohibited this critical_process from being
@@ -36,7 +69,7 @@
     </div>
   </span>
 
-    <span id='scopes'>
+    <span id='scopes' style="display:none;">
     <div class="field">
       <%= f.label :in_scope %>
       <br/>
@@ -49,7 +82,7 @@
     </div>
   </span>
 
-    <span id="categories">
+    <span id="categories" style="display:none;">
     <div class="categories">
       <% f.fields_for :categories do |builder| %>
           <%= render 'category_fields', :f => builder %>
@@ -58,7 +91,7 @@
     </div>
   </span>
 
-    <span id="lessons">
+    <span id="lessons" style="display:none;">
     <div class="lessons">
       <% f.fields_for :lessons do |builder| %>
           <%= render 'lesson_fields', :f => builder %>
@@ -67,6 +100,7 @@
     </div>
   </span>
 
+    <span id="key_terms" style="display:none;">
     <div id="key_terms_selection">
 
       <% for key_term in KeyTerm.find(:all) %>
@@ -74,19 +108,29 @@
           <%= key_term.term %>
       <% end %>
 
+      <a id="term_link" href='#'> Add Key Term </a>
     </div>
+    </span>
 
-    <a id="term_link" href='#'> Add Key Term </a>
+    <table border="0" cellpadding="5" cellspacing="0">
+      <tr>
+        <td>
+          <input id="ButtonPrevious" type="button" value="Previous" disabled="disabled" name="" onclick="handleWizardPrevious();"/>
+        <td>
+          <input id="ButtonNext" type="button" value="Next" name="scopes" onclick="handleWizardNext()"/></td>
+      </tr>
+
+    </table>
 
     <div class="actions">
       <%= f.submit %>
     </div>
+
 <% end %>
 
 <div id="new_key_term_dialog">
   <% @key_term = KeyTerm.new %>
   <%= form_for(@key_term, :remote => true) do |f| %>
-
 
       <div class="field">
         <%= f.label :term %>

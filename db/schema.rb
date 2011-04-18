@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110409132143) do
+ActiveRecord::Schema.define(:version => 20110416115803) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "role_id"
@@ -89,6 +89,12 @@ ActiveRecord::Schema.define(:version => 20110409132143) do
     t.string   "lesson_title"
     t.text     "lesson_definition"
     t.integer  "critical_process_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "macro_processes", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,13 +1,14 @@
-<h1>Listing critical_processes</h1>
+<% if @critical_processes.is_a?(array)  %>
+<h1>Historical Versions for <%= @critical_processes.first.latest_approved_revision.cp_title %></h1>
+<% else %>
+<h1>This is the only available version for <%= @critical_processes.latest_approved_revision.cp_title %></h1>
+<% end %>
 
 <table>
   <tr>
-    <th>Cp secondary</th>
+    <th>Stage</th>
     <th>Cp title</th>
-    <th>Cp intro</th>
-    <th>Cp definition</th>
-    <th>In scope</th>
-    <th>Out scope</th>
+    <th>Date Updated</th>
     <th></th>
     <th></th>
     <th></th>
@@ -15,12 +16,9 @@
 
   <% @critical_processes.each do |critical_process| %>
       <tr>
-        <td><%= critical_process.cp_secondary_id %></td>
+        <td><%= critical_process.review.stage %></td>
         <td><%= critical_process.cp_title %></td>
-        <td><%= critical_process.cp_intro %></td>
-        <td><%= critical_process.cp_definition %></td>
-        <td><%= critical_process.in_scope %></td>
-        <td><%= critical_process.out_scope %></td>
+        <td><%= critical_process.updated_at %></td>
         <td><%= link_to 'Show', critical_process %></td>
         <td><%= link_to 'Edit', edit_critical_process_path(critical_process) %></td>
         <td><%= link_to 'Destroy', critical_process, :confirm => 'Are you sure?', :method => :delete %></td>
@@ -30,4 +28,6 @@
 
 <br/>
 
+<% if current_user.is_admin %>
 <%= link_to 'New Critical process', new_critical_process_path %>
+<% end %>

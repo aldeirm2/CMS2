@@ -1,4 +1,5 @@
 class CriticalProcess < ActiveRecord::Base
+  has_one :macro_process
   has_many :categories, :dependent => :destroy
   has_many :lessons, :dependent => :destroy
   has_many :authorizations
@@ -84,5 +85,16 @@ class CriticalProcess < ActiveRecord::Base
     end
     self.authorizations.each {|x| x.destroy}
   end
+
+  def latest_approved_revision
+    revisions = CriticalProcess.where(:cp_secondary_id => self.cp_secondary_id)
+    revisions.sort! {|x,y| y.updated_at <=> x.updated_at }
+    revisions.each do |x|
+      if x.review.stage == 'approved'
+        return x
+      end
+    end
+  end
+
 
 end

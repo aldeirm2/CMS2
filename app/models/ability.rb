@@ -4,7 +4,19 @@ class Ability
   def initialize(user)
 
     can :manage, CriticalProcess do |cp|
+      if cp.editors
       cp.editors.include?(user)
+      else
+        false
+      end
+    end
+
+    can :read, CriticalProcess do |cp|
+      if cp == cp.latest_approved_revision
+        true
+      elsif user.has_access_to(cp)
+        true
+      end
     end
 
     can :manage, Review do |cp|
@@ -26,8 +38,6 @@ class Ability
 
     if user.is_admin
       can :manage, :all
-    else
-      can :read, CriticalProcess
     end
 
   end

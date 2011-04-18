@@ -25,36 +25,50 @@ $(function() {
     $("#term_link").click(function() {
         console.log('clicked');
         $("#new_key_term_dialog").dialog('open');
-    })
+    });
     $("#new_key_term_dialog").dialog({
         modal: true,
         autoOpen: false,
         title: 'Add Key Term'
-    })
+    });
 
 // more blah blah
-})
+});
 
-function addToTopic(value) {
+var addToTopics = function() {
+    var result = "";
+    var checkedTopics = $(".topic-checkbox:checked");
+    $.each(checkedTopics, function(i, topic) {
+        if(i == 0) {
+            result = result + $(topic).attr('value');
+        }
+        else {
+            result = result + ", " + $(topic).attr('value');
+        }
+    });
+    return result;
+};
 
-    var CurrentValue = $('[id=comment_topics]').val();
-    CurrentValue = CurrentValue + ", " + value;
-    $('[id=comment_topics]').val(CurrentValue);
+$(function(){
+$(document).load($("#comment_form").submit(function() {
+    var ListOfTopics = addToTopics();
+    $('#comment_topics').val(ListOfTopics);
+    alert($('#comment_topics').val());
+    return true;
 
-}
-
-
+}));
+});
 // This function handles style and display changes for each next button click
 
 function handleWizardNext() {
 
-    if (document.getElementById('ButtonNext').name == 'Step2') {
+    if (document.getElementById('ButtonNext').name == 'scopes') {
 
         // Change the button name - we use this to keep track of which step to display on a click
 
-        document.getElementById('ButtonNext').name = 'Step3';
+        document.getElementById('ButtonNext').name = 'categories';
 
-        document.getElementById('ButtonPrevious').name = 'Step1';
+        document.getElementById('ButtonPrevious').name = 'cp_description';
 
         // Disable/enable buttons when reach reach start and review steps
 
@@ -62,9 +76,9 @@ function handleWizardNext() {
 
         // Set new step to display and turn off display of current step
 
-        document.getElementById('Step1').style.display = 'none';
+        document.getElementById('cp_description').style.display = 'none';
 
-        document.getElementById('Step2').style.display = '';
+        document.getElementById('scopes').style.display = '';
 
         // Change background color on header to highlight new step
 
@@ -74,17 +88,17 @@ function handleWizardNext() {
 
     }
 
-    else if (document.getElementById('ButtonNext').name == 'Step3') {
+    else if (document.getElementById('ButtonNext').name == 'categories') {
 
         // Change the button name - we use this to keep track of which step to display on a click
 
-        document.getElementById('ButtonNext').name = 'Step4';
+        document.getElementById('ButtonNext').name = 'lessons';
 
-        document.getElementById('ButtonPrevious').name = 'Step2';
+        document.getElementById('ButtonPrevious').name = 'scopes';
 
-        document.getElementById('Step2').style.display = 'none';
+        document.getElementById('scopes').style.display = 'none';
 
-        document.getElementById('Step3').style.display = '';
+        document.getElementById('categories').style.display = '';
 
         // Change background color on header to highlight new step
 
@@ -94,19 +108,19 @@ function handleWizardNext() {
 
     }
 
-    else if (document.getElementById('ButtonNext').name == 'Step4') {
+    else if (document.getElementById('ButtonNext').name == 'lessons') {
 
         // Change the button name - we use this to keep track of which step to display on a click
 
-        document.getElementById('ButtonNext').name = 'Step5';
+        document.getElementById('ButtonNext').name = 'key_terms';
 
-        document.getElementById('ButtonPrevious').name = 'Step3';
+        document.getElementById('ButtonPrevious').name = 'categories';
 
         // Set new step to display and turn off display of current step
 
-        document.getElementById('Step3').style.display = 'none';
+        document.getElementById('categories').style.display = 'none';
 
-        document.getElementById('Step4').style.display = '';
+        document.getElementById('lessons').style.display = '';
 
         // Change background color on header to highlight new step
 
@@ -116,13 +130,13 @@ function handleWizardNext() {
 
     }
 
-    else if (document.getElementById('ButtonNext').name == 'Step5') {
+    else if (document.getElementById('ButtonNext').name == 'key_terms') {
 
         // Change the button name - we use this to keep track of which step to display on a click
 
         document.getElementById('ButtonNext').name = '';
 
-        document.getElementById('ButtonPrevious').name = 'Step4';
+        document.getElementById('ButtonPrevious').name = 'lessons';
 
         // Disable/enable buttons when reach reach start and review steps
 
@@ -132,19 +146,15 @@ function handleWizardNext() {
 
         // Set new step to display and turn off display of current step
 
-        document.getElementById('Step4').style.display = 'none';
+        document.getElementById('lessons').style.display = 'none';
 
-        document.getElementById('Step5').style.display = '';
+        document.getElementById('key_terms').style.display = '';
 
         // Change background color on header to highlight new step
 
         document.getElementById('HeaderTableStep5').style.backgroundColor = 'Yellow';
 
         document.getElementById('HeaderTableStep4').style.backgroundColor = 'Silver';
-
-        // Load table elements for final review step
-
-        loadStep5Review();
 
     }
 
@@ -155,11 +165,11 @@ function handleWizardNext() {
 
 function handleWizardPrevious() {
 
-    if (document.getElementById('ButtonPrevious').name == 'Step1') {
+    if (document.getElementById('ButtonPrevious').name == 'cp_description') {
 
         // Change the button name - we use this to keep track of which step to display on a click
 
-        document.getElementById('ButtonNext').name = 'Step2';
+        document.getElementById('ButtonNext').name = 'scopes';
 
         document.getElementById('ButtonPrevious').name = '';
 
@@ -169,9 +179,9 @@ function handleWizardPrevious() {
 
         // Set new step to display and turn off display of current step
 
-        document.getElementById('Step2').style.display = 'none';
+        document.getElementById('scopes').style.display = 'none';
 
-        document.getElementById('Step1').style.display = '';
+        document.getElementById('cp_description').style.display = '';
 
         // Change background color on header to highlight new step
 
@@ -181,19 +191,19 @@ function handleWizardPrevious() {
 
     }
 
-    else if (document.getElementById('ButtonPrevious').name == 'Step2') {
+    else if (document.getElementById('ButtonPrevious').name == 'scopes') {
 
         // Change the button name - we use this to keep track of which step to display on a click
 
-        document.getElementById('ButtonNext').name = 'Step3';
+        document.getElementById('ButtonNext').name = 'categories';
 
-        document.getElementById('ButtonPrevious').name = 'Step1';
+        document.getElementById('ButtonPrevious').name = 'cp_description';
 
         // Set new step to display and turn off display of current step
 
-        document.getElementById('Step3').style.display = 'none';
+        document.getElementById('categories').style.display = 'none';
 
-        document.getElementById('Step2').style.display = '';
+        document.getElementById('scopes').style.display = '';
 
         // Change background color on header to highlight new step
 
@@ -203,19 +213,19 @@ function handleWizardPrevious() {
 
     }
 
-    else if (document.getElementById('ButtonPrevious').name == 'Step3') {
+    else if (document.getElementById('ButtonPrevious').name == 'categories') {
 
         // Change the button name - we use this to keep track of which step to display on a click
 
-        document.getElementById('ButtonNext').name = 'Step4';
+        document.getElementById('ButtonNext').name = 'lessons';
 
-        document.getElementById('ButtonPrevious').name = 'Step2';
+        document.getElementById('ButtonPrevious').name = 'scopes';
 
         // Set new step to display and turn off display of current step
 
-        document.getElementById('Step4').style.display = 'none';
+        document.getElementById('lessons').style.display = 'none';
 
-        document.getElementById('Step3').style.display = '';
+        document.getElementById('categories').style.display = '';
 
         // Change background color on header to highlight new step
 
@@ -225,13 +235,13 @@ function handleWizardPrevious() {
 
     }
 
-    else if (document.getElementById('ButtonPrevious').name == 'Step4') {
+    else if (document.getElementById('ButtonPrevious').name == 'lessons') {
 
         // Change the button name - we use this to keep track of which step to display on a click
 
-        document.getElementById('ButtonNext').name = 'Step5';
+        document.getElementById('ButtonNext').name = 'key_terms';
 
-        document.getElementById('ButtonPrevious').name = 'Step3';
+        document.getElementById('ButtonPrevious').name = 'categories';
 
         // Disable/enable buttons when reach reach start and review steps
 
@@ -241,9 +251,9 @@ function handleWizardPrevious() {
 
         // Set new step to display and turn off display of current step
 
-        document.getElementById('Step5').style.display = 'none';
+        document.getElementById('key_terms').style.display = 'none';
 
-        document.getElementById('Step4').style.display = '';
+        document.getElementById('lessons').style.display = '';
 
         // Change background color on header to highlight new step
 
