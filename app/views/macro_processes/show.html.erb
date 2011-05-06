@@ -5,6 +5,6 @@
   <%= @macro_process.name %>
 </p>
 
-
+<a href="<%= "/critical_processes/new?macro_process=#{@macro_process.id}" %>">Create New Critical Process</a>
 <%= link_to 'Edit', edit_macro_process_path(@macro_process) %> |
 <%= link_to 'Back', macro_processes_path %>

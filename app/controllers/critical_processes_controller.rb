@@ -28,6 +28,10 @@ class CriticalProcessesController < ApplicationController
   # GET /critical_processes/1.xml
   def show
     @critical_process = CriticalProcess.find(params[:id])
+    @categories = @critical_process.categories
+    @lessons = @critical_process.lessons
+    @key_term = @critical_process.key_terms
+
     authorize! :read, @critical_process
 
     @comments = @critical_process.review.comments.order('updated_at DESC')

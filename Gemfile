@@ -11,6 +11,7 @@ gem 'jquery-rails', '>= 0.2.6'
 gem "cancan"
 gem 'authlogic'
 gem "nifty-generators", :group => :development
+gem "rails-erd"
 
 
 # Use unicorn as the web server

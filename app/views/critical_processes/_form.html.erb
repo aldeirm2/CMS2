@@ -57,11 +57,22 @@
         <br/>
         <%= f.text_field :cp_title %>
       </div>
-    <div class="field">
-      <%= f.label :cp_intro %>
-      <br/>
-      <%= f.text_area :cp_intro %>
-    </div>
+    <% if params[:macro_process] %>
+     <div class="field">
+       <%= f.hidden_field :macro_process_id, :value => params[:macro_process] %>
+     </div>
+    <% else %>
+        <div class="field">
+            <%= f.label :macro_process_id %>
+        <br/>
+            <%= f.select :macro_process_id, options_for_select(MacroProcess.all.collect { |mp| [mp.name, mp.id]}, f.object.macro_process_id) %>
+        </div>
+    <% end %>
+      <div class="field">
+        <%= f.label :cp_intro %>
+        <br/>
+        <%= f.text_area :cp_intro %>
+      </div>
     <div class="field">
       <%= f.label :cp_definition %>
       <br/>
@@ -107,9 +118,8 @@
           <%= check_box_tag "critical_process[key_term_ids][]", key_term.id, @critical_process.key_terms.include?(key_term) %>
           <%= key_term.term %>
       <% end %>
-
-      <a id="term_link" href='#'> Add Key Term </a>
     </div>
+      <a id="term_link" href='#'> Add Key Term </a>
     </span>
 
     <table border="0" cellpadding="5" cellspacing="0">

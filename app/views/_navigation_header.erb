@@ -5,7 +5,7 @@
 <div id="links_container">
 	<div id="user_options">
 		<% if current_user %>
-			Singed in as <%= current_user.email %>. Not you? |
+			Hello <%= current_user.first_name %>. Not you? |
             <%= link_to "Sign Out", logout_path %> |
             <%= link_to 'Edit Profile', edit_user_path(current_user) %> |
           <% if current_user.is_admin %>
@@ -17,7 +17,7 @@
 		<% end %>
 	</div>
 		<div id="main_link">
-		<%= link_to "Critical Processes", critical_processes_path %> |
+		<%= link_to "Home", macro_processes_path %> |
         <% if current_user && current_user.authorised %>
 		<%= link_to "Key Terms", key_terms_path %> |
         <% end %>

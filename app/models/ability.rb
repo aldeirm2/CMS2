@@ -3,6 +3,8 @@ class Ability
 
   def initialize(user)
 
+    user ||= User.new
+
     can :manage, CriticalProcess do |cp|
       if cp.editors
       cp.editors.include?(user)
@@ -38,6 +40,8 @@ class Ability
 
     if user.is_admin
       can :manage, :all
+    else
+      can :new, User
     end
 
   end

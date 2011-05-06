@@ -1,11 +1,42 @@
-<p class="fields">
-  <%= f.label :cbb_title, "CBB Title" %><br/>
-  <%= f.text_area :cbb_title, :rows => 2 %>
+<div class="fields">
+  <%= f.label :cbb_title, "CBB Title" %>
+  <%= link_to_remove_fields "remove", f %><br/>
+  <%= f.text_area :cbb_title, :rows => 2 %><br/>
   <%= f.label :cbb_definition, "CBB Description" %><br/>
   <%= f.text_area :cbb_definition, :rows => 4 %>
+
+  <div id='edit_cbb_maturity_container' class="maturity_container">
+
+    <div id="edit_cbb_maturity_1" class="maturity_level_box">
+    <%= f.label :level_1_cbb, "CBB Maturity Level 1" %><br/>
+    <%= f.text_area :level_1_cbb, :rows => 4 %>
+    </div>
+
+      <div id="edit_cbb_maturity_2" class="maturity_level_box">
+    <%= f.label :level_2_cbb, "CBB Maturity Level 2" %><br/>
+    <%= f.text_area :level_2_cbb, :rows => 4 %>
+    </div>
+
+      <div id="edit_cbb_maturity_3" class="maturity_level_box">
+    <%= f.label :level_3_cbb, "CBB Maturity Level 3" %><br/>
+    <%= f.text_area :level_3_cbb, :rows => 4 %>
+    </div>
+
+      <div id="edit_cbb_maturity_4" class="maturity_level_box">
+    <%= f.label :level_4_cbb, "CBB Maturity Level 4" %><br/>
+    <%= f.text_area :level_4_cbb, :rows => 4 %>
+    </div>
+
+      <div id="edit_cbb_maturity_5" class="maturity_level_box">
+    <%= f.label :level_5_cbb, "CBB Maturity Level 5" %><br/>
+    <%= f.text_area :level_5_cbb, :rows => 4 %>
+    </div>
+
+  </div>
+
   <% if @critical_process.review && @critical_process.review.stage == 'approved' %>
       <%= f.hidden_field :id, :value => '' %>
   <% end %>
   <%= f.hidden_field :_destroy %>
-  <%= link_to_remove_fields "remove", f %>
-</p>
+
+</div>

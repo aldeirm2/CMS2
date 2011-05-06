@@ -10,7 +10,14 @@
       </ul>
     </div>
   <% end %>
-
+  <div class="field">
+    <%= f.label :first_name, 'First Name' %><br />
+    <%= f.text_field :first_name %>
+  </div>
+    <div class="field">
+    <%= f.label :second_name, "Last Name" %><br />
+    <%= f.text_field :second_name %>
+  </div>
   <div class="field">
     <%= f.label :username %><br />
     <%= f.text_field :username %>
@@ -20,10 +27,14 @@
     <%= f.text_field :email %>
   </div>
   <div class="field">
-    <%= f.label :phone_number %><br />
+    <%= f.label :email_me, 'Would you like to Receive Emails from the IVI?' %>
+    <%= f.check_box :email_me, :value => @user.email_me%>
+  </div>
+  <div class="field">
+    <%= f.label :phone_number, "Mobile Number" %><br />
     <%= f.text_field :phone_number %>
   </div>
-  <% if @user == current_user %>
+  <% if @user == current_user || !current_user %>
   <div class="field">
     <%= f.label :password %><br />
     <%= f.password_field :password %>
@@ -34,6 +45,7 @@
   </div>
   <% end %>
   <% if current_user && current_user.is_admin %>
+        <h3>Assign User Roles</h3><br/>
   <p><% for role in Role.where(:review => true) %>
         <%= check_box_tag "user[roles_as_reviewer_ids][]", role.id, @user.roles.include?(role) %>
         <%= role.name %>

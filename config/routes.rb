@@ -31,7 +31,7 @@ CMS::Application.routes.draw do
 
   match "/dynamic_create" => "key_terms#dynamic_create", :as => :dynamic_create
 
-  root :to => "critical_processes#index"
+  root :to => "macro_processes#index"
 
   resources :review, :only => [:show, :update]
 

@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
 
-  load_and_authorize_resource
+  authorize_resource
   # GET /users
   # GET /users.xml
   def index
-    @users = User.all
-
+    @users = User.search(params[:search])
+    authorize! :index, @users
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @users }
@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   # GET /users/1.xml
   def show
     @user = User.find(params[:id])
-
+    authorize! :read, @user
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @user }
@@ -28,6 +28,7 @@ class UsersController < ApplicationController
   def new
     @user = User.new
 
+    authorize! :new, @user
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @user }
@@ -37,6 +38,7 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
+    authorize! :edit, @user
   end
 
   # POST /users

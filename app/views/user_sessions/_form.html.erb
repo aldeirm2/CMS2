@@ -1,25 +1,37 @@
-<%= form_for(@user_session) do |f| %>
-  <% if @user_session.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user_session.errors.count, "error") %> prohibited this user_session from being saved:</h2>
+<div id="login_page">
+  <h1 align="center">Welcome to the Information Value Institute IT-CMF Official Homepage</h1>
 
-      <ul>
-      <% @user_session.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+  <div id="login_box">
+    <div id='login_fields'>
+      <%= form_for(@user_session) do |f| %>
+          <% if @user_session.errors.any? %>
+              <div id="error_explanation">
+                <h2><%= pluralize(@user_session.errors.count, "error") %> prohibited this user_session from being
+                  saved:</h2>
+
+                <ul>
+                  <% @user_session.errors.full_messages.each do |msg| %>
+                      <li><%= msg %></li>
+                  <% end %>
+                </ul>
+              </div>
+          <% end %>
+
+          <div class="field">
+            <%= f.label :username %>
+            <br/>
+            <%= f.text_field :username %>
+          </div>
+          <div class="field">
+            <%= f.label :password %>
+            <br/>
+            <%= f.password_field :password %>
+          </div>
+          <div class="actions">
+            <%= f.submit %>
+          </div>
+
       <% end %>
-      </ul>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :username %><br />
-    <%= f.text_field :username %>
   </div>
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>

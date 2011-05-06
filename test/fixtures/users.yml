@@ -4,10 +4,10 @@ one:
   username: MyString
   email: MyString
   phone_number: 1
-  password: MyString
+  crypted_password: MyString
 
 two:
   username: MyString
   email: MyString
   phone_number: 1
-  password: MyString
+  crypted_password: MyString

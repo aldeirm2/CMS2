@@ -50,4 +50,17 @@ class User < ActiveRecord::Base
       true
     end
   end
+
+  def name
+    first_name + " " + second_name
+  end
+
+  def self.search(search)
+    if search
+      query = "%#{search}%"
+      where("first_name like ? or second_name like ?", query, query)
+    else
+      all
+    end
+  end
 end

@@ -1,7 +1,7 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
-// accpets the link tag which is passed in
+// accepts the link tag which is passed in
 function remove_fields(link) {
     $(link).prev('input[type=hidden]').val("1");
     $(link).closest(".fields").hide();
@@ -142,7 +142,7 @@ function handleWizardNext() {
 
         document.getElementById('ButtonNext').disabled = 'disabled';
 
-        document.getElementById('SubmitFinal').disabled = '';
+
 
         // Set new step to display and turn off display of current step
 
@@ -247,7 +247,6 @@ function handleWizardPrevious() {
 
         document.getElementById('ButtonNext').disabled = '';
 
-        document.getElementById('SubmitFinal').disabled = 'disabled';
 
         // Set new step to display and turn off display of current step
 

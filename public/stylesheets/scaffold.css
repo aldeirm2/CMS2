@@ -126,7 +126,7 @@ a {
 
 #navigation_header {
   border-bottom: medium solid black;
-  background-image: url('/images/ivi_quote.jpg');
+
   height: 70px;
 }
 #user_options {
@@ -139,4 +139,60 @@ a {
 	font-size: large;
 	margin-top: -19px;
 	border-bottom: medium solid;
+}
+
+#Managing IT Like a Business_container {
+
+}
+
+#Managing The IT Budget_container {
+
+}
+
+#Managing The IT Capability _container {
+
+}
+
+#Managing IT For Busines Value_container {
+
+}
+
+#macro_processes_container {
+    margin-left:auto;
+    border: medium solid black;
+    width: 1000px;
+    margin-right:auto;
+}
+
+#index_home_page {
+    width:1300px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.index_macro_container {
+    width:200px;
+    display:inline-block;
+    margin:10px;
+
+}
+
+#login_box {
+	margin-left: auto;
+	border: medium solid black;
+	width: 330px;
+	margin-right: auto;
+}
+#login_fields {
+	padding-left: 30px;
+}
+#login_page {
+	width: 1300px;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+
+#cp_intro, #cp_definition, #scopes {
+    width:400px;
 }

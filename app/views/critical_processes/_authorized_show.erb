@@ -1,66 +1,122 @@
+<div id='show_page'>
+
+<h1>Currently Showing <%= @critical_process.cp_title %></h1>
+
 <p>
-  <b>Cp secondary:</b>
+  <b>Secondary ID:</b>
   <%= @critical_process.cp_secondary_id %>
 </p>
 
-<p>
-  <b>Cp title:</b> <input type="checkbox" class="topic-checkbox" value="Title" >
-  <%= @critical_process.cp_title %>
-</p>
-
-<p>
-  <b>Cp intro:</b> <input type="checkbox" class="topic-checkbox" value="Intro" >
+<div id="cp_intro">
+  <b>Introduction:</b> <input type="checkbox" class="topic-checkbox" value="Intro" > <br/>
   <%= @critical_process.cp_intro %>
-</p>
+</div>
 
-<p>
-  <b>Cp definition:</b> <input type="checkbox" class="topic-checkbox" value="Definition" >
+<div id='cp_definition'>
+  <b>Definition:</b> <input type="checkbox" class="topic-checkbox" value="Definition" > <br/>
   <%= @critical_process.cp_definition %>
-</p>
+</div>
 
-<p>
-  <b>In scope:</b> <input type="checkbox" class="topic-checkbox" value="In-Scope" >
+<div id='scopes'>
+<div id='in_scope_container'>
+  <b>In scope:</b> <input type="checkbox" class="topic-checkbox" value="In-Scope" > <br/>
   <%= @critical_process.in_scope %>
-</p>
+</div>
 
-<p>
-  <b>Out scope:</b> <input type="checkbox" class="topic-checkbox" value="Out-Scope" >
+<div id='out_scope_container'>
+  <b>Out scope:</b> <input type="checkbox" class="topic-checkbox" value="Out-Scope" > <br/>
   <%= @critical_process.out_scope %>
-</p>
+</div>
+</div>
 
-<ol>
-  <% for category in @critical_process.categories %>
-      <li>
-        <%= h category.category_title %> <input type="checkbox" class="topic-checkbox" value="Category: <%= category.category_title  %>" >
-        <ul>
-          <% for cbb in category.capability_building_blocks %>
-              <li> <%= h cbb.cbb_title %></li> <input type="checkbox" class="topic-checkbox" value="CBB: <%= cbb.cbb_title  %>" >
-              <li> <%= h cbb.cbb_definition %></li>
-          <% end %>
-        </ul>
-      </li>
-  <% end %>
-</ol>
-<b>Lessons Learned:</b>
-<ol>
-  <% for lesson in @critical_process.lessons %>
-      <li>
-        <%= h lesson.lesson_title %> <input type="checkbox" class="topic-checkbox" value="Category: <%= lesson.lesson_title  %>" >
-        <%= h lesson.lesson_definition %>
-      </li>
-  <% end %>
-</ol>
+
+<div id='cbb_definitions'>
+  <h3>Description of categories and underlying capability building blocks</h3>
+  <table border="1">
+    <tr>
+      <th>Categories</th>
+      <th>Capability Building Blocks</th>
+      <th>Description</th>
+    </tr>
+    <% for category in @categories %>
+        <tr>
+          <td rowspan="<%= category.capability_building_blocks.size %>"><%= category.category_title %></td>
+          <td><%= category.capability_building_blocks.first.cbb_title %></td>
+          <td><%= category.capability_building_blocks.first.cbb_definition %></td>
+        </tr>
+        <% (category.capability_building_blocks - [category.capability_building_blocks.first]).each do |cbb| %>
+        <tr>
+          <td><%= cbb.cbb_title %></td>
+          <td><%= cbb.cbb_definition %></td>
+        </tr>
+        <% end %>
+    <% end %>
+  </table>
+
+</div>
+
+<div id='CBB_maturity_show'>
+  <h3>Summary maturity curve for capability building blocks</h3>
+  <table border="1">
+    <tr>
+      <th>Categories</th>
+      <th>CBB's</th>
+      <th>Level 1</th>
+      <th>Level 2</th>
+      <th>Level 3</th>
+      <th>Level 4</th>
+      <th>Level 5</th>
+    </tr>
+    <% for category in @categories %>
+        <tr>
+          <td rowspan="<%= category.capability_building_blocks.size %>"><%= category.category_title %></td>
+          <td><%= category.capability_building_blocks.first.cbb_title %></td>
+          <td><%= category.capability_building_blocks.first.level_1_cbb %></td>
+          <td><%= category.capability_building_blocks.first.level_2_cbb %></td>
+          <td><%= category.capability_building_blocks.first.level_3_cbb %></td>
+          <td><%= category.capability_building_blocks.first.level_4_cbb %></td>
+          <td><%= category.capability_building_blocks.first.level_5_cbb %></td>
+        </tr>
+        <% (category.capability_building_blocks - [category.capability_building_blocks.first]).each do |cbb| %>
+        <tr>
+          <td><%= cbb.cbb_title %></td>
+          <td><%= cbb.level_1_cbb %></td>
+          <td><%= cbb.level_2_cbb %></td>
+          <td><%= cbb.level_3_cbb %></td>
+          <td><%= cbb.level_4_cbb %></td>
+          <td><%= cbb.level_5_cbb %></td>
+        </tr>
+        <% end %>
+    <% end %>
+
+  </table>
+</div>
+<div id='lessons_learned_show'>
+<h3>Summary of insights and lessons learned</h3>
+
+  <table border="1">
+    <tr>
+      <th>Question</th>
+      <th>Lessons Learned</th>
+    </tr>
+    <% for lesson in @lessons%>
+        <tr>
+          <td><input type="checkbox" class="topic-checkbox" value="Lesson: <%= lesson.lesson_title  %>" ><%= lesson.lesson_title%> </td>
+          <td><%= lesson.lesson_definition %></td>
+
+        </tr>
+    <% end %>
+  </table>
+</div>
 
 <p>
   <b>Key term's</b>
   <% if @critical_process.key_terms.count > 0 %>
-      <%= @critical_process.key_terms.collect { |key_term| link_to(key_term.term, key_term) }.join(", ") %>
+      <%= @key_terms.collect { |key_term| link_to key_term.term, key_term }.join(", ") %>
   <% else %>
       This process has no Key terms
   <% end %>
 </p>
-
-
 
     <div id="comments">
 
@@ -78,7 +134,6 @@
 
           </div>
       <% end %>
-
 
     </div>
 
@@ -148,3 +203,4 @@
 <%= link_to 'Back', critical_processes_path %>
 <%= link_to 'show all versions', all_versions_critical_process_path(@critical_process.cp_secondary_id) %>
 
+</div>

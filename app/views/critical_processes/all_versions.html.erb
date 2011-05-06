@@ -1,7 +1,7 @@
-<% if @critical_processes.is_a?(array)  %>
+<% if @critical_processes.is_a? Array  %>
 <h1>Historical Versions for <%= @critical_processes.first.latest_approved_revision.cp_title %></h1>
 <% else %>
-<h1>This is the only available version for <%= @critical_processes.latest_approved_revision.cp_title %></h1>
+<h1>This is the only available version for <%= @critical_processes.first.cp_title %></h1>
 <% end %>
 
 <table>

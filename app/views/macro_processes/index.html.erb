@@ -1,23 +1,21 @@
-<h1>Listing macro_processes</h1>
+<div id='index_home_page'>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<h1>IT-CMF Home Page</h1>
 
+
+<div id="macro_processes_container">
 <% @macro_processes.each do |macro_process| %>
-  <tr>
-    <td><%= macro_process.name %></td>
-    <td><%= link_to 'Show', macro_process %></td>
-    <td><%= link_to 'Edit', edit_macro_process_path(macro_process) %></td>
-    <td><%= link_to 'Destroy', macro_process, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
+    <div id="<%= macro_process.name %>_container" class="index_macro_container">
+      <span><h3><%= macro_process.name %></h3></span><br/>
+      <% macro_process.critical_processes.each do |cp| %>
 
-<br />
+          <%= link_to cp.cp_title, cp %> <br/>
+      <% end %>
+
+    </div>
+<% end %>
+</div>
+<br/>
 
 <%= link_to 'New Macro process', new_macro_process_path %>
+</div>
