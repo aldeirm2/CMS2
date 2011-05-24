@@ -6,9 +6,8 @@ class User < ActiveRecord::Base
   has_many :role_as_admin, :through => :assignments, :class_name => 'Role', :source => :role, :conditions => {:admin => true}
   has_many :assignments
   has_many :comments
-
-  # Setup accessible (or protected) attributes for your model
- # attr_accessible :email, :password, :roles_as_reviewer_ids, :roles_as_editor_ids, :role_as_admin_ids
+  has_many :received_messages, :class_name => "Message", :foreign_key => 'to_id'
+  has_many :sent_messages, :class_name => "Message", :foreign_key => 'from_id'
 
   def cps_as_editor
     self.roles_as_editor.collect{ |x| CriticalProcess.where(:cp_secondary_id => x.critical_process_id) }.flatten.uniq

@@ -1,21 +1,20 @@
-<div id='index_home_page'>
-
-<h1>IT-CMF Home Page</h1>
 
 
-<div id="macro_processes_container">
-<% @macro_processes.each do |macro_process| %>
-    <div id="<%= macro_process.name %>_container" class="index_macro_container">
-      <span><h3><%= macro_process.name %></h3></span><br/>
-      <% macro_process.critical_processes.each do |cp| %>
 
-          <%= link_to cp.cp_title, cp %> <br/>
+<% if current_user.is_admin %>
+<%= link_to 'New Critical Process', new_critical_process_path, :class => "action_button", :id => "mac_process" %>
+<% end %>
+<div id="macro_processes_container" class="clearfix">
+<% @macro_processes.each_with_index do |macro_process, index| %>
+    <div id="container_<%= index.to_s%>" class="index_macro_container">
+
+      <ul>
+      <li><h3><%= macro_process.name %></h3></li>
+      <% macro_process.authorized_critical_processes(current_user).each do |cp| %>
+
+          <li class="pro_link"><%= link_to cp.cp_title, cp %></li>
       <% end %>
-
+      </ul>
     </div>
 <% end %>
-</div>
-<br/>
-
-<%= link_to 'New Macro process', new_macro_process_path %>
 </div>

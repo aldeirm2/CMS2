@@ -60,7 +60,7 @@ $(document).load($("#comment_form").submit(function() {
 });
 // This function handles style and display changes for each next button click
 
-function handleWizardNext() {
+function wizardNext() {
 
     if (document.getElementById('ButtonNext').name == 'scopes') {
 
@@ -163,7 +163,7 @@ function handleWizardNext() {
 
 // This function handles style and display changes for each previous button click
 
-function handleWizardPrevious() {
+function wizardPrevious() {
 
     if (document.getElementById('ButtonPrevious').name == 'cp_description') {
 

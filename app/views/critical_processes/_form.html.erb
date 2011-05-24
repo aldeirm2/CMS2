@@ -1,34 +1,31 @@
 <%= form_for(@critical_process) do |f| %>
-    <table border="1" cellpadding="5" cellspacing="0" id="HeaderTable">
+    <ul class="steps">
+        <li id="HeaderTableStep1" style="background-color:Yellow">
 
-      <tr>
-        <td id="HeaderTableStep1" style="background-color:Yellow">
+          Step 1: Overview
+        </li>
 
-          Step 1: Basic Information
-        </td>
-
-        <td id="HeaderTableStep2" style="background-color:Silver">
+        <li id="HeaderTableStep2" style="background-color:#D0D0D0">
 
           Step 2: In-Scope & Out-Scope
-        </td>
+        </li>
 
-        <td id="HeaderTableStep3" style="background-color:Silver">
+        <li id="HeaderTableStep3" style="background-color:#D0D0D0">
 
           Step 3:&nbsp; Categories & CBB's
-        </td>
+        </li>
 
-        <td id="HeaderTableStep4" style="background-color:Silver">
+        <li id="HeaderTableStep4" style="background-color:#D0D0D0">
 
           Step 4: Lessons Learned
-        </td>
+        </li>
 
-        <td id="HeaderTableStep5" style="background-color:Silver">
+        <li id="HeaderTableStep5" style="background-color:#D0D0D0">
 
           Step:5 Key Terms
-        </td>
-
-      </tr>
-    </table>
+        
+       </li>
+    </ul>
     <br/>
 
 
@@ -53,8 +50,7 @@
     </div>
    <% end %>
       <div class="field">
-        <%= f.label :cp_title %>
-        <br/>
+        <p><%= f.label :cp_title %></p>
         <%= f.text_field :cp_title %>
       </div>
     <% if params[:macro_process] %>
@@ -125,9 +121,9 @@
     <table border="0" cellpadding="5" cellspacing="0">
       <tr>
         <td>
-          <input id="ButtonPrevious" type="button" value="Previous" disabled="disabled" name="" onclick="handleWizardPrevious();"/>
+          <input id="ButtonPrevious" type="button" value="Previous" disabled="disabled" name="" onclick="wizardPrevious();"/>
         <td>
-          <input id="ButtonNext" type="button" value="Next" name="scopes" onclick="handleWizardNext()"/></td>
+          <input id="ButtonNext" type="button" value="Next" name="scopes" onclick="wizardNext()"/></td>
       </tr>
 
     </table>

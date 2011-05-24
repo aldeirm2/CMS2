@@ -27,8 +27,8 @@
     <%= f.text_field :email %>
   </div>
   <div class="field">
-    <%= f.label :email_me, 'Would you like to Receive Emails from the IVI?' %>
-    <%= f.check_box :email_me, :value => @user.email_me%>
+    <%= f.label :cp_change_email, 'Would you like to Receive Emails from the IVI in the event of a CP change?' %>
+    <%= f.check_box :cp_change_email, :value => @user.cp_change_email%>
   </div>
   <div class="field">
     <%= f.label :phone_number, "Mobile Number" %><br />

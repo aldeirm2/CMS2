@@ -1,25 +1,33 @@
-<div id="navigation_header">
-	<div id="header_image" >
-	</div>
-</div>
-<div id="links_container">
-	<div id="user_options">
-		<% if current_user %>
-			Hello <%= current_user.first_name %>. Not you? |
-            <%= link_to "Sign Out", logout_path %> |
-            <%= link_to 'Edit Profile', edit_user_path(current_user) %> |
-          <% if current_user.is_admin %>
-            <%= link_to "List of Users", users_path %>
-          <% end %>
-		<% else %>
-          <%= link_to "Sign Up", new_user_path %> Or
-          <%= link_to "Sign In", login_path %>
-		<% end %>
-	</div>
-		<div id="main_link">
-		<%= link_to "Home", macro_processes_path %> |
-        <% if current_user && current_user.authorised %>
-		<%= link_to "Key Terms", key_terms_path %> |
-        <% end %>
-	</div>
+<div id="header">
+  <div id="main_link">
+    <div id="processes">
+      <h1>IVI IT-CMF</h1>
+    </div>
+    <div id="user_options">
+    <% if current_user %>
+        Hello <%= current_user.first_name %>. Not you?
+        <%= link_to "Sign Out", logout_path %>
+        <%= link_to 'Edit Profile', edit_user_path(current_user) %>
+
+    <% else %>
+        <%= link_to "Sign Up", new_user_path %> Or
+        <%= link_to "Sign In", login_path %>
+    <% end %>
+     <div>
+       <h2>Critical Processes: 34</h2>
+     </div>
+  </div>
+    </div>
+  </div>
+
+
+<div id="links">
+   <%= link_to "Home", macro_processes_path %>
+   <% if current_user && current_user.authorised %>
+      <%= link_to "Key Terms", key_terms_path %>
+      <%= link_to "List of Users", users_path %>
+   <% end %>
+
+
+
 </div>

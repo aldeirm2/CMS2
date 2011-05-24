@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110416121439) do
+ActiveRecord::Schema.define(:version => 20110511214254) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "role_id"
@@ -100,6 +100,16 @@ ActiveRecord::Schema.define(:version => 20110416121439) do
     t.datetime "updated_at"
   end
 
+  create_table "messages", :force => true do |t|
+    t.string   "subject"
+    t.text     "message_body"
+    t.integer  "from_id"
+    t.integer  "to_id"
+    t.boolean  "new_message"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "reviews", :force => true do |t|
     t.string   "stage"
     t.integer  "critical_process_id"
@@ -131,7 +141,8 @@ ActiveRecord::Schema.define(:version => 20110416121439) do
     t.datetime "updated_at"
     t.string   "first_name"
     t.string   "second_name"
-    t.boolean  "email_me"
+    t.boolean  "cp_change_email"
+    t.boolean  "comment_email"
   end
 
 end

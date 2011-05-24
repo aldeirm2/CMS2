@@ -7,18 +7,20 @@
   <%= csrf_meta_tag %>
 
 
-
-
 </head>
 <body>
-    <%= render :partial => '/navigation_header' %>
+<div id="page_container">
 
-    <% flash.each do |name, msg| %>
-        <%= content_tag :div, msg, :id => "flash_#{name}" %>
-    <% end %>
+  <%= render :partial => '/navigation_header' %>
 
+  <% flash.each do |name, msg| %>
+      <%= content_tag :div, msg, :id => "flash_#{name}" %>
+  <% end %>
 
-<%= yield %>
+  <div id="content">
+  <%= yield %>
+  </div>
 
+</div>
 </body>
 </html>

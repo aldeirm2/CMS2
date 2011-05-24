@@ -1,5 +1,5 @@
 class CriticalProcess < ActiveRecord::Base
-  has_one :macro_process
+  belongs_to :macro_process
   has_many :categories, :dependent => :destroy
   has_many :lessons, :dependent => :destroy
   has_many :authorizations
@@ -96,5 +96,20 @@ class CriticalProcess < ActiveRecord::Base
     end
   end
 
+  def self.authorized_critical_processes(user)
+    critical_processes = []
+    CriticalProcess.all.uniq_by { |x| x.cp_secondary_id }.each do |x|
+      cps = CriticalProcess.where(:cp_secondary_id => x.cp_secondary_id)
+      if user.has_access_to(cps.first) || user.is_admin
+        cps = cps.sort { |x, y| y.updated_at <=> x.updated_at }
+      else
+        cps = cps.select { |x| x.review.stage == 'approved' if x.review && x.review.stage }
+        cps = cps.sort { |x, y| y.updated_at <=> x.updated_at }
+      end
+      critical_processes << cps.first unless cps.blank?
+    end
+
+    return critical_processes
+  end
 
 end

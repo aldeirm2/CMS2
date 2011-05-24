@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.3'
+gem 'rails', '3.0.7'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -12,6 +12,7 @@ gem "cancan"
 gem 'authlogic'
 gem "nifty-generators", :group => :development
 gem "rails-erd"
+gem 'railroady'
 
 
 # Use unicorn as the web server

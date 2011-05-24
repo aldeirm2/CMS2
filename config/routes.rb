@@ -1,6 +1,8 @@
 CMS::Application.routes.draw do
 
 
+  resources :messages
+
   resources :macro_processes
 
   resources :user_sessions

@@ -118,11 +118,7 @@
 
 <div id='key_terms_show'>
   <b>Key term's</b>
-  <% if @critical_process.key_terms.count > 0 %>
-      <%= @critical_process.key_terms.collect { |key_term| link_to(key_term.term, key_term) }.join(", ") %>
-  <% else %>
-      This process has no Key terms
-  <% end %>
+
 </div>
 
 

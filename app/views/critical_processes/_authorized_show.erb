@@ -1,38 +1,50 @@
-<div id='show_page'>
 
-<h1>Currently Showing <%= @critical_process.cp_title %></h1>
 
-<p>
-  <b>Secondary ID:</b>
-  <%= @critical_process.cp_secondary_id %>
-</p>
+<h2><%= @critical_process.cp_title %></h2>
 
-<div id="cp_intro">
-  <b>Introduction:</b> <input type="checkbox" class="topic-checkbox" value="Intro" > <br/>
-  <%= @critical_process.cp_intro %>
-</div>
-
-<div id='cp_definition'>
-  <b>Definition:</b> <input type="checkbox" class="topic-checkbox" value="Definition" > <br/>
-  <%= @critical_process.cp_definition %>
-</div>
-
-<div id='scopes'>
-<div id='in_scope_container'>
-  <b>In scope:</b> <input type="checkbox" class="topic-checkbox" value="In-Scope" > <br/>
-  <%= @critical_process.in_scope %>
-</div>
-
-<div id='out_scope_container'>
-  <b>Out scope:</b> <input type="checkbox" class="topic-checkbox" value="Out-Scope" > <br/>
-  <%= @critical_process.out_scope %>
-</div>
+<div class="content_options">
+  <% if current_user.is_admin || current_user.can_edit(@critical_process) %>
+  <%= link_to 'Edit', edit_critical_process_path(@critical_process) %>
+  <% end %>
+  <%= link_to 'Back', critical_processes_path %>
+  <%= link_to 'show all versions', all_versions_critical_process_path(@critical_process.cp_secondary_id) %>
 </div>
 
 
-<div id='cbb_definitions'>
+<!--<p>-->
+  <!--<b>Secondary ID:</b>-->
+  <!--<%= @critical_process.cp_secondary_id %>-->
+<!--</p>-->
+
+<div id="cp_intro" class="box_content">
+  <h4>Introduction:</h4> <input type="checkbox" class="topic-checkbox" value="Intro" />
+  <p><%= @critical_process.cp_intro %></p>
+</div>
+
+<div id='cp_definition' class="box_content">
+  <h4>Definition:</h4> <input type="checkbox" class="topic-checkbox" value="Definition" />
+  <p><%= @critical_process.cp_definition %></p>
+</div>
+
+<div id='scopes' class="clearfix">
+
+  <h3>Scopes</h3>
+
+<div id='in_scope_container' class="box_content scope_box">
+  <h4>In scope:</h4> <input type="checkbox" class="topic-checkbox" value="In-Scope" />
+  <p><%= @critical_process.in_scope %></p>
+</div>
+
+<div id='out_scope_container' class="box_content scope_box">
+  <h4>Out scope:</h4> <input type="checkbox" class="topic-checkbox" value="Out-Scope" />
+  <p><%= @critical_process.out_scope %></p>
+</div>
+</div>
+
+
+<div id='cbb_definitions' class="process_table">
   <h3>Description of categories and underlying capability building blocks</h3>
-  <table border="1">
+  <table border="0">
     <tr>
       <th>Categories</th>
       <th>Capability Building Blocks</th>
@@ -40,14 +52,14 @@
     </tr>
     <% for category in @categories %>
         <tr>
-          <td rowspan="<%= category.capability_building_blocks.size %>"><%= category.category_title %></td>
-          <td><%= category.capability_building_blocks.first.cbb_title %></td>
-          <td><%= category.capability_building_blocks.first.cbb_definition %></td>
+          <td class="cat" rowspan="<%= category.capability_building_blocks.size %>"><%= category.category_title %></td>
+          <td class="cbb"><%= category.capability_building_blocks.first.cbb_title %></td>
+          <td class="def"><%= category.capability_building_blocks.first.cbb_definition %></td>
         </tr>
         <% (category.capability_building_blocks - [category.capability_building_blocks.first]).each do |cbb| %>
         <tr>
-          <td><%= cbb.cbb_title %></td>
-          <td><%= cbb.cbb_definition %></td>
+          <td class="cbb"><%= cbb.cbb_title %></td>
+          <td class="def"><%= cbb.cbb_definition %></td>
         </tr>
         <% end %>
     <% end %>
@@ -55,9 +67,9 @@
 
 </div>
 
-<div id='CBB_maturity_show'>
+<div id='CBB_maturity_show' class="process_table">
   <h3>Summary maturity curve for capability building blocks</h3>
-  <table border="1">
+  <table border="0">
     <tr>
       <th>Categories</th>
       <th>CBB's</th>
@@ -69,8 +81,8 @@
     </tr>
     <% for category in @categories %>
         <tr>
-          <td rowspan="<%= category.capability_building_blocks.size %>"><%= category.category_title %></td>
-          <td><%= category.capability_building_blocks.first.cbb_title %></td>
+          <td class="cat" rowspan="<%= category.capability_building_blocks.size %>"><%= category.category_title %></td>
+          <td class="cbb"><%= category.capability_building_blocks.first.cbb_title %></td>
           <td><%= category.capability_building_blocks.first.level_1_cbb %></td>
           <td><%= category.capability_building_blocks.first.level_2_cbb %></td>
           <td><%= category.capability_building_blocks.first.level_3_cbb %></td>
@@ -79,7 +91,7 @@
         </tr>
         <% (category.capability_building_blocks - [category.capability_building_blocks.first]).each do |cbb| %>
         <tr>
-          <td><%= cbb.cbb_title %></td>
+          <td class="cbb"><%= cbb.cbb_title %></td>
           <td><%= cbb.level_1_cbb %></td>
           <td><%= cbb.level_2_cbb %></td>
           <td><%= cbb.level_3_cbb %></td>
@@ -91,10 +103,10 @@
 
   </table>
 </div>
-<div id='lessons_learned_show'>
+<div id='lessons_learned_show' class="process_table">
 <h3>Summary of insights and lessons learned</h3>
 
-  <table border="1">
+  <table border="0">
     <tr>
       <th>Question</th>
       <th>Lessons Learned</th>
@@ -111,27 +123,25 @@
 
 <p>
   <b>Key term's</b>
-  <% if @critical_process.key_terms.count > 0 %>
-      <%= @key_terms.collect { |key_term| link_to key_term.term, key_term }.join(", ") %>
-  <% else %>
-      This process has no Key terms
-  <% end %>
+
 </p>
 
     <div id="comments">
 
+      <h3>Comments</h3>
+
       <!-- display all comments for this cp, in order of date added, with the user that wrote them and .  -->
       <% for comment in @comments %>
-          <hr>
-          <br/>
 
-          <div id="comment">
-            <%= h comment.comment %> <br/>
-            Relating to the following topics: <%= h comment.topics %><br/>
-            By: <%= h comment.user.email %>
-            <br/>
-            Left on: <%= h comment.updated_at %>
 
+
+          <div class="comment">
+            <div class="heading">
+              <p class="name"><%= h comment.user.name %></p>
+              <p class="date"><%= h comment.updated_at.strftime("%I:%M %z %d-%m-%y") %></p>
+            </div>
+            <p><%= h comment.comment %></p>
+            Topics: <%= h comment.topics %>
           </div>
       <% end %>
 
@@ -148,7 +158,7 @@
           <div class="field">
             <%= f.label :comment %>
             <br/>
-            <%= f.text_area :comment %>
+            <%= f.text_area :comment, :rows => 20, :cols => 60 %>
           </div>
           <div class="field">
             <%= f.hidden_field :review_id, :value => @critical_process.review.id %>
@@ -160,7 +170,7 @@
             <%= f.hidden_field :topics, :id => "comment_topics", :value => '' %>
           </div>
           <div class="actions">
-            <%= f.submit %>
+            <%= f.submit :class => "action_button"%>
           </div>
       <% end %>
 
@@ -191,16 +201,10 @@
           </div>
           <div class="actions">
 
-            <%= f.submit "Approve CP to level #{@new_stage}" %>
+            <%= f.submit "Approve CP to level #{@new_stage}", :class => "action_button" %>
           </div>
       <% end %>
   <% end %>
 </div>
 <% end %>
-<% if current_user.is_admin || current_user.can_edit(@critical_process) %>
-<%= link_to 'Edit', edit_critical_process_path(@critical_process) %> |
-<% end %>
-<%= link_to 'Back', critical_processes_path %>
-<%= link_to 'show all versions', all_versions_critical_process_path(@critical_process.cp_secondary_id) %>
 
-</div>

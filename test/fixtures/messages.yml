@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  subject: MyString
+  message_body: MyText
+  from_id: 1
+  to_id: 1
+  new_message: false
+
+two:
+  subject: MyString
+  message_body: MyText
+  from_id: 1
+  to_id: 1
+  new_message: false

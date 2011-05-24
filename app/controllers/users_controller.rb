@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  authorize_resource
+  #authorize_resource
   # GET /users
   # GET /users.xml
   def index
@@ -28,7 +28,6 @@ class UsersController < ApplicationController
   def new
     @user = User.new
 
-    authorize! :new, @user
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @user }
@@ -68,7 +67,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
+        format.html { redirect_to(root_url, :notice => 'User Account successfully updated.') }
       else
         format.html { render :action => "edit" }
       end
