@@ -17,4 +17,16 @@ class MacroProcess < ActiveRecord::Base
     end
     return critical_processes
   end
+
+  def get_macro_style_number
+    if self.name == "Managing IT Like a Business"
+      return 0
+    elsif self.name == 'Managing IT For Business Value'
+      return 1
+    elsif self.name == 'Managing The IT Capability'
+      return 2
+    elsif self.name == 'Managing The IT Budget'
+      return 3
+    end
+  end
 end

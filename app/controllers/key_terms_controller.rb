@@ -46,7 +46,6 @@ class KeyTermsController < ApplicationController
 
     respond_to do |format|
       if @key_term.save
-       # UserMailer.test_mail.deliver
         format.html { redirect_to(@key_term, :notice => 'Key term was successfully created.') }
         format.xml  { render :xml => @key_term, :status => :created, :location => @key_term }
         format.js

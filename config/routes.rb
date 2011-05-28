@@ -1,15 +1,14 @@
 CMS::Application.routes.draw do
 
-
-  resources :messages
-
   resources :macro_processes
 
   resources :user_sessions
   match '/login' => "user_sessions#new", :as => :login
   match '/logout' => "user_sessions#destroy", :as => :logout
 
-  resources :users
+  resources :users do
+    resources :messages
+  end
 
   get "review/show"
 
@@ -36,6 +35,9 @@ CMS::Application.routes.draw do
   root :to => "macro_processes#index"
 
   resources :review, :only => [:show, :update]
+
+  match "/usernames" => 'messages#query'
+  match '/review_cps' => 'critical_processes#review_cps'
 
 
  # match 'review/:id' => 'review#show'

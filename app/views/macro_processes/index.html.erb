@@ -1,15 +1,12 @@
-
-
-
 <% if current_user.is_admin %>
 <%= link_to 'New Critical Process', new_critical_process_path, :class => "action_button", :id => "mac_process" %>
 <% end %>
 <div id="macro_processes_container" class="clearfix">
 <% @macro_processes.each_with_index do |macro_process, index| %>
-    <div id="container_<%= index.to_s%>" class="index_macro_container">
+    <div id="container_<%= index.to_s %>" class="index_macro_container">
 
       <ul>
-      <li><h3><%= macro_process.name %></h3></li>
+      <li class="macro_heading"><h3><%= link_to macro_process.name, macro_process, :class => 'macro_heading' %></h3></li>
       <% macro_process.authorized_critical_processes(current_user).each do |cp| %>
 
           <li class="pro_link"><%= link_to cp.cp_title, cp %></li>

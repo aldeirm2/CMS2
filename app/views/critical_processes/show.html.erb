@@ -110,7 +110,7 @@
   </table>
   <% for lesson in @lessons %>
       <li>
-        <%= h lesson.lesson_title %> <input type="checkbox" class="topic-checkbox" value="Category: <%= lesson.lesson_title  %>" > <br/>
+        <%= h lesson.lesson_title %> <input type="checkbox" class="topic_checkbox" value="Category: <%= lesson.lesson_title  %>" > <br/>
         <%= h lesson.lesson_definition %>
       </li>
   <% end %>
@@ -122,7 +122,7 @@
 </div>
 
 
-<%= link_to 'Back', critical_processes_path %>
+<%= link_to 'Back', macro_processes_path %>
 
 <% end %>
 

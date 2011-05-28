@@ -1,15 +1,17 @@
 
-
+<ul class="top_content clearfix">
+  <li class="heading">
 <h2><%= @critical_process.cp_title %></h2>
-
-<div class="content_options">
+   </li>
+<li class="content_options">
   <% if current_user.is_admin || current_user.can_edit(@critical_process) %>
   <%= link_to 'Edit', edit_critical_process_path(@critical_process) %>
   <% end %>
-  <%= link_to 'Back', critical_processes_path %>
-  <%= link_to 'show all versions', all_versions_critical_process_path(@critical_process.cp_secondary_id) %>
-</div>
-
+  <%= link_to 'Back', macro_processes_path %>
+  <%= link_to 'Show All Versions', all_versions_critical_process_path(@critical_process.cp_secondary_id) %>
+  <%= link_to 'Download (PDF)', critical_process_path(@critical_process, :format => 'pdf') %>
+</li>
+</ul>
 
 <!--<p>-->
   <!--<b>Secondary ID:</b>-->
@@ -17,12 +19,12 @@
 <!--</p>-->
 
 <div id="cp_intro" class="box_content">
-  <h4>Introduction:</h4> <input type="checkbox" class="topic-checkbox" value="Intro" />
+  <h4>Introduction:</h4> <input type="checkbox" class="topic_checkbox" value="Intro" />
   <p><%= @critical_process.cp_intro %></p>
 </div>
 
 <div id='cp_definition' class="box_content">
-  <h4>Definition:</h4> <input type="checkbox" class="topic-checkbox" value="Definition" />
+  <h4>Definition:</h4> <input type="checkbox" class="topic_checkbox" value="Definition" />
   <p><%= @critical_process.cp_definition %></p>
 </div>
 
@@ -31,19 +33,19 @@
   <h3>Scopes</h3>
 
 <div id='in_scope_container' class="box_content scope_box">
-  <h4>In scope:</h4> <input type="checkbox" class="topic-checkbox" value="In-Scope" />
+  <h4>In scope:</h4> <input type="checkbox" class="topic_checkbox" value="In-Scope" />
   <p><%= @critical_process.in_scope %></p>
 </div>
 
 <div id='out_scope_container' class="box_content scope_box">
-  <h4>Out scope:</h4> <input type="checkbox" class="topic-checkbox" value="Out-Scope" />
+  <h4>Out scope:</h4> <input type="checkbox" class="topic_checkbox" value="Out-Scope" />
   <p><%= @critical_process.out_scope %></p>
 </div>
 </div>
 
-
+<% if @categories%>
 <div id='cbb_definitions' class="process_table">
-  <h3>Description of categories and underlying capability building blocks</h3>
+  <h3>Description of Categories And Underlying Capability Building Blocks</h3>
   <table border="0">
     <tr>
       <th>Categories</th>
@@ -67,8 +69,32 @@
 
 </div>
 
+
+
+<div id="category_maturity_show" class='process_table'>
+  <h3>Attributes Of Maturity Level For Each Category</h3>
+  <table border="0">
+    <tr>
+      <th>Maturity</th>
+      <% for category in @categories %>
+      <th><%= category.category_title %></th>
+      <% end %>
+    </tr>
+    <% 5.times do |i|%>
+        <% level = 5 - i %>
+      <tr>
+      <td class="maturity_levels">Level <%= level %> Maturity</td>
+      <% for category in @categories %>
+        <td class="def"><%= category.send("level_#{level}_category") %></td>
+      <% end %>
+      </tr>
+    <% end %>
+  </table>
+
+</div>
+
 <div id='CBB_maturity_show' class="process_table">
-  <h3>Summary maturity curve for capability building blocks</h3>
+  <h3>Summary Maturity Curve For Capability Building Blocks</h3>
   <table border="0">
     <tr>
       <th>Categories</th>
@@ -83,28 +109,31 @@
         <tr>
           <td class="cat" rowspan="<%= category.capability_building_blocks.size %>"><%= category.category_title %></td>
           <td class="cbb"><%= category.capability_building_blocks.first.cbb_title %></td>
-          <td><%= category.capability_building_blocks.first.level_1_cbb %></td>
-          <td><%= category.capability_building_blocks.first.level_2_cbb %></td>
-          <td><%= category.capability_building_blocks.first.level_3_cbb %></td>
-          <td><%= category.capability_building_blocks.first.level_4_cbb %></td>
-          <td><%= category.capability_building_blocks.first.level_5_cbb %></td>
+          <td class="def"><%= category.capability_building_blocks.first.level_1_cbb %></td>
+          <td class="def"><%= category.capability_building_blocks.first.level_2_cbb %></td>
+          <td class="def"><%= category.capability_building_blocks.first.level_3_cbb %></td>
+          <td class="def"><%= category.capability_building_blocks.first.level_4_cbb %></td>
+          <td class="def"><%= category.capability_building_blocks.first.level_5_cbb %></td>
         </tr>
         <% (category.capability_building_blocks - [category.capability_building_blocks.first]).each do |cbb| %>
         <tr>
           <td class="cbb"><%= cbb.cbb_title %></td>
-          <td><%= cbb.level_1_cbb %></td>
-          <td><%= cbb.level_2_cbb %></td>
-          <td><%= cbb.level_3_cbb %></td>
-          <td><%= cbb.level_4_cbb %></td>
-          <td><%= cbb.level_5_cbb %></td>
+          <td class="def"><%= cbb.level_1_cbb %></td>
+          <td class="def"><%= cbb.level_2_cbb %></td>
+          <td class="def"><%= cbb.level_3_cbb %></td>
+          <td class="def"><%= cbb.level_4_cbb %></td>
+          <td class="def"><%= cbb.level_5_cbb %></td>
         </tr>
         <% end %>
     <% end %>
 
   </table>
 </div>
+<% end %>
+
+<% if @lessons %>
 <div id='lessons_learned_show' class="process_table">
-<h3>Summary of insights and lessons learned</h3>
+<h3>Summary of Insights & Lessons Learned</h3>
 
   <table border="0">
     <tr>
@@ -113,19 +142,33 @@
     </tr>
     <% for lesson in @lessons%>
         <tr>
-          <td><input type="checkbox" class="topic-checkbox" value="Lesson: <%= lesson.lesson_title  %>" ><%= lesson.lesson_title%> </td>
-          <td><%= lesson.lesson_definition %></td>
-
+          <td class="lesson_question"><input type="checkbox" class="topic_checkbox" value="Lesson: <%= lesson.lesson_title  %>" ><%= lesson.lesson_title%> </td>
+          <td class="lesson_def"><%= lesson.lesson_definition %></td>
         </tr>
     <% end %>
   </table>
 </div>
 
-<p>
-  <b>Key term's</b>
+<% end %>
 
-</p>
+<% if @key_terms %>
+<div id="key_terms_show" class="process_table">
+  <h3>Key Terms Used</h3>
 
+  <table border="0">
+    <tr>
+      <th>Term/Acronym</th>
+      <th>Definition</th>
+    </tr>
+    <% for term in @key_terms %>
+        <tr>
+          <td class="terms"><%= link_to term.term, term %></td>
+          <td class="key_term_meaning"><%= term.meaning %></td>
+        </tr>
+    <% end %>
+  </table>
+</div>
+<% end %>
     <div id="comments">
 
       <h3>Comments</h3>
@@ -136,9 +179,9 @@
 
 
           <div class="comment">
-            <div class="heading">
-              <p class="name"><%= h comment.user.name %></p>
-              <p class="date"><%= h comment.updated_at.strftime("%I:%M %z %d-%m-%y") %></p>
+            <div class="comment_heading">
+              <p class="name"><%= link_to comment.user.name, comment.user, :class => "name_link" %></p>
+              <p class="date"><%= h comment.updated_at.strftime("%I:%M %d-%m-%y") %></p>
             </div>
             <p><%= h comment.comment %></p>
             Topics: <%= h comment.topics %>
@@ -156,7 +199,7 @@
 
 
           <div class="field">
-            <%= f.label :comment %>
+            <%= f.label :comment, "New Comment" %>
             <br/>
             <%= f.text_area :comment, :rows => 20, :cols => 60 %>
           </div>

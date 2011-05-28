@@ -1,15 +1,24 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Term:</b>
-  <%= @key_term.term %>
-</p>
+
+<ul class="top_content clearfix">
+  <li class="heading">
+
+    <h2>Key Term: <span class="key_term"><%= @key_term.term %></span></h2>
+  </li>
+  <li class="content_options">
+
+    <%= link_to 'Edit', edit_key_term_path(@key_term) %>
+    <%= link_to 'Back', key_terms_path %>
+
+
+  </li>
+
+
+</ul>
+
 
 <p>
-  <b>Meaning:</b>
   <%= @key_term.meaning %>
 </p>
 
-
-<%= link_to 'Edit', edit_key_term_path(@key_term) %> |
-<%= link_to 'Back', key_terms_path %>

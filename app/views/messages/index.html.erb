@@ -1,31 +1,38 @@
-<h1>Listing messages</h1>
+<h2>Inbox</h2>
 
+
+<% if current_user.received_messages.count > 0 %>
 <table>
   <tr>
-    <th>Subject</th>
-    <th>Message body</th>
     <th>From</th>
-    <th>To</th>
-    <th>New message</th>
-    <th></th>
+    <th>Subject</th>
+    <th>Body</th>
+    <th>Date</th>
     <th></th>
     <th></th>
   </tr>
 
 <% @messages.each do |message| %>
-  <tr>
-    <td><%= message.subject %></td>
-    <td><%= message.message_body %></td>
-    <td><%= message.from_id %></td>
-    <td><%= message.to_id %></td>
-    <td><%= message.new_message %></td>
-    <td><%= link_to 'Show', message %></td>
-    <td><%= link_to 'Edit', edit_message_path(message) %></td>
-    <td><%= link_to 'Destroy', message, :confirm => 'Are you sure?', :method => :delete %></td>
+  <% if message.new_message %>
+      <tr class="inbox_new_message">
+  <% else %>
+      <tr>
+  <% end %>
+
+    <td class="inbox_name"><%= link_to message.sender.username, message.sender %></td>
+    <td class="inbox_sub"><%= message.subject %></td>
+    <td class="inbox_body"><%= message.message_body[0..70] %></td>
+    <td class="inbox_date"><%= message.created_at.strftime("%H:%M (%d %b)") %></td>
+    <td><%= link_to 'Show', [current_user, message] %></td>
+    <td><%= link_to 'Destroy', [current_user, message] , :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
+<% else %>
+<p>You dont have any messages</p>
+
+<% end %>
 
 <br />
 
-<%= link_to 'New Message', new_message_path %>
+<%= link_to 'New Message', new_user_message_path, :class => 'action_button' %>

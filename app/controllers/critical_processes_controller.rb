@@ -20,7 +20,7 @@ class CriticalProcessesController < ApplicationController
     @critical_process = CriticalProcess.find(params[:id])
     @categories = @critical_process.categories
     @lessons = @critical_process.lessons
-    @key_term = @critical_process.key_terms
+    @key_terms = @critical_process.key_terms
 
     authorize! :read, @critical_process
 
@@ -87,10 +87,12 @@ class CriticalProcessesController < ApplicationController
     @critical_process = CriticalProcess.find(params[:id])
     if params[:critical_process]["cp_secondary_id"].blank?
       @critical_process.update_attributes(params[:critical_process])
+     # UserMailer.review_edit(@critical_process).deliver
       redirect_to(@critical_process, :notice => 'Critical process was successfully updated.')
     else
       revision = CriticalProcess.create(params[:critical_process])
       revision.update_attribute :cp_secondary_id, params[:critical_process]['cp_secondary_id']
+     # UserMailer.new_version(revision).deliver
       redirect_to(revision, :notice => 'Revision was successfully updated.')
     end
 
@@ -108,7 +110,7 @@ class CriticalProcessesController < ApplicationController
     @critical_process.destroy
 
     respond_to do |format|
-      format.html { redirect_to(critical_processes_url) }
+      format.html { redirect_to(macro_processes_url) }
       format.xml { head :ok }
     end
   end
@@ -145,7 +147,13 @@ class CriticalProcessesController < ApplicationController
 
   def all_versions
     if params[:id]
-      @critical_processes = CriticalProcess.where :cp_secondary_id => params[:id]
+      @critical_processes = CriticalProcess.where(:cp_secondary_id => params[:id]).order('updated_at DESC')
     end
+  end
+
+
+  def review_cps
+    @critical_processes = current_user.pending_review
+
   end
 end

@@ -1,5 +1,10 @@
 <p id="notice"><%= notice %></p>
 
+
+<p>
+<b> From:</b>
+   <%= link_to @message.sender.name, @message.sender %>
+</p>
 <p>
   <b>Subject:</b>
   <%= @message.subject %>
@@ -10,21 +15,5 @@
   <%= @message.message_body %>
 </p>
 
-<p>
-  <b>From:</b>
-  <%= @message.from_id %>
-</p>
-
-<p>
-  <b>To:</b>
-  <%= @message.to_id %>
-</p>
-
-<p>
-  <b>New message:</b>
-  <%= @message.new_message %>
-</p>
-
-
-<%= link_to 'Edit', edit_message_path(@message) %> |
-<%= link_to 'Back', messages_path %>
+<%= link_to 'Back', user_messages_path(current_user) %>
+<%= link_to 'Reply', new_user_message_path(current_user, :to_id => @message.from_id, :to_name => @message.sender_name) %>

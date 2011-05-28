@@ -4,8 +4,8 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.xml
   def index
-    @users = User.search(params[:search])
-    authorize! :index, @users
+    @users = User.search(params[:search]).order('username').page(params[:page]).per(10)
+    authorize! :index, User
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @users }

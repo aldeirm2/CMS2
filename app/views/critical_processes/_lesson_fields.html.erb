@@ -1,11 +1,11 @@
-<p class="fields">
+<div class="lesson_block fields">
   <%= f.label :lesson_title, "Lesson Title" %><br/>
-  <%= f.text_area :lesson_title, :rows => 2 %>
+  <%= f.text_area :lesson_title, :rows => 2 %><br/>
   <%= f.label :lesson_definition, "Lesson Description" %><br/>
-  <%= f.text_area :lesson_definition, :rows => 4 %>
+  <%= f.text_area :lesson_definition, :rows => 4 %><br/>
   <% if @critical_process.review && @critical_process.review.stage == 'approved' %>
       <%= f.hidden_field :id, :value => '' %>
   <% end %>
   <%= f.hidden_field :_destroy %>
   <%= link_to_remove_fields "remove", f %>
-</p>
+</div>

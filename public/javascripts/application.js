@@ -37,7 +37,7 @@ $(function() {
 
 var addToTopics = function() {
     var result = "";
-    var checkedTopics = $(".topic-checkbox:checked");
+    var checkedTopics = $(".topic_checkbox:checked");
     $.each(checkedTopics, function(i, topic) {
         if(i == 0) {
             result = result + $(topic).attr('value');
@@ -53,7 +53,6 @@ $(function(){
 $(document).load($("#comment_form").submit(function() {
     var ListOfTopics = addToTopics();
     $('#comment_topics').val(ListOfTopics);
-    alert($('#comment_topics').val());
     return true;
 
 }));
@@ -263,3 +262,35 @@ function wizardPrevious() {
     }
 
 }
+
+
+	$(function() {
+		var cache = {},
+			lastXhr;
+		$( "#username" ).autocomplete({
+			minLength: 1,
+			source: function( request, response ) {
+				var term = request.term;
+				if ( term in cache ) {
+					response( cache[ term ] );
+					return;
+				}
+
+				lastXhr = $.getJSON( "/usernames", request, function( data, status, xhr ) {
+					cache[ term ] = data;
+					if ( xhr === lastXhr ) {
+						response( data );
+					}
+				});
+			},
+            select: function( event, ui ) {
+                $('#message_to_id').val(ui.item.id);
+			},
+            change: function(event, ui) {
+                if ($('#username').val().length == 0){
+                    $('#message_to_id').val('');
+                }
+            }
+
+		});
+	});

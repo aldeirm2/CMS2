@@ -112,4 +112,9 @@ class CriticalProcess < ActiveRecord::Base
     return critical_processes
   end
 
+  def self.cp_count
+    number_of_uniq_cps = CriticalProcess.all.uniq_by {|cp| cp.cp_secondary_id}.size
+    return number_of_uniq_cps
+  end
+
 end

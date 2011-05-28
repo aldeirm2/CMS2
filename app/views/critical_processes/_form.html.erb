@@ -50,7 +50,7 @@
     </div>
    <% end %>
       <div class="field">
-        <p><%= f.label :cp_title %></p>
+        <p><%= f.label :cp_title, "Title" %></p>
         <%= f.text_field :cp_title %>
       </div>
     <% if params[:macro_process] %>
@@ -65,12 +65,12 @@
         </div>
     <% end %>
       <div class="field">
-        <%= f.label :cp_intro %>
+        <%= f.label :cp_intro, 'Introduction' %>
         <br/>
         <%= f.text_area :cp_intro %>
       </div>
     <div class="field">
-      <%= f.label :cp_definition %>
+      <%= f.label :cp_definition, "Definition" %>
       <br/>
       <%= f.text_area :cp_definition %>
     </div>
@@ -78,12 +78,12 @@
 
     <span id='scopes' style="display:none;">
     <div class="field">
-      <%= f.label :in_scope %>
+      <%= f.label :in_scope, 'In Scope' %>
       <br/>
       <%= f.text_area :in_scope %>
     </div>
     <div class="field">
-      <%= f.label :out_scope %>
+      <%= f.label :out_scope, "Out Scope" %>
       <br/>
       <%= f.text_area :out_scope %>
     </div>
@@ -109,11 +109,14 @@
 
     <span id="key_terms" style="display:none;">
     <div id="key_terms_selection">
-
+      <h3>Key Terms</h3>
+      <ul id="key_term_list">
       <% for key_term in KeyTerm.find(:all) %>
-          <%= check_box_tag "critical_process[key_term_ids][]", key_term.id, @critical_process.key_terms.include?(key_term) %>
-          <%= key_term.term %>
+          <li><%= check_box_tag "critical_process[key_term_ids][]", key_term.id, @critical_process.key_terms.include?(key_term) %>
+          <%= key_term.term %></li>
       <% end %>
+
+          </ul>
     </div>
       <a id="term_link" href='#'> Add Key Term </a>
     </span>
@@ -129,7 +132,7 @@
     </table>
 
     <div class="actions">
-      <%= f.submit %>
+      <%= f.submit :class => "action_button" %>
     </div>
 
 <% end %>

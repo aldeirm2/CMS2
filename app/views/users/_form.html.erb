@@ -27,12 +27,16 @@
     <%= f.text_field :email %>
   </div>
   <div class="field">
-    <%= f.label :cp_change_email, 'Would you like to Receive Emails from the IVI in the event of a CP change?' %>
+    <%= f.label :phone_number, "Mobile Number" %><br />
+    <%= f.text_field :phone_number %>
+  </div>
+  <div class="field">
+    <%= f.label :cp_change_email, 'Receive email notifications in event of CP change?' %>
     <%= f.check_box :cp_change_email, :value => @user.cp_change_email%>
   </div>
   <div class="field">
-    <%= f.label :phone_number, "Mobile Number" %><br />
-    <%= f.text_field :phone_number %>
+    <%= f.label :comment_email, 'Receive email notifications when someone places a comment?' %>
+    <%= f.check_box :comment_email, :value => @user.cp_change_email%>
   </div>
   <% if @user == current_user || !current_user %>
   <div class="field">
@@ -45,19 +49,20 @@
   </div>
   <% end %>
   <% if current_user && current_user.is_admin %>
-        <h3>Assign User Roles</h3><br/>
+
+        <h4>Review Roles:</h4>
   <p><% for role in Role.where(:review => true) %>
         <%= check_box_tag "user[roles_as_reviewer_ids][]", role.id, @user.roles.include?(role) %>
         <%= role.name %>
      <% end %>
   </p>
-
+      <h4>Edit Roles:</h4>
   <p><% for role in Role.where(:edit => true) %>
         <%= check_box_tag "user[roles_as_editor_ids][]", role.id, @user.roles.include?(role) %>
         <%= role.name %>
      <% end %>
   </p>
-
+     <h4>Admin Role:</h4>
   <p><% for role in Role.where(:admin => true) %>
         <%= check_box_tag "user[role_as_admin_ids][]", role.id, @user.roles.include?(role) %>
         <%= role.name %>
@@ -71,6 +76,6 @@
     </p>
   <% end %>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit :class => 'action_button'%>
   </div>
 <% end %>

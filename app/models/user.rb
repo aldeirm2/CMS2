@@ -57,9 +57,40 @@ class User < ActiveRecord::Base
   def self.search(search)
     if search
       query = "%#{search}%"
-      where("first_name like ? or second_name like ?", query, query)
+      where("username like ?", query)
     else
-      all
+      scoped
     end
+  end
+
+  def self.auto_fill(search)
+    query = "%#{search}%"
+    where("username like ?", query)
+  end
+
+  def new_messages_count
+    new_messages = self.received_messages.where(:new_message => true)
+    if new_messages
+      return new_messages.size
+    else
+      return 0
+    end
+  end
+
+  def pending_review
+    reviews = Review.where("stage != ?", "approved")
+    all_cps_under_review = []
+    user_cps_under_review = []
+    reviews.each do |review|
+      all_cps_under_review << review.critical_process
+    end
+
+    all_cps_under_review.each do |cp|
+      if self.cps_as_reviewer.include?(cp)
+        user_cps_under_review << cp
+      end
+    end
+
+    return user_cps_under_review
   end
 end

@@ -1,27 +1,34 @@
 <p id="notice"><%= notice %></p>
+<ul class="top_content clearfix">
+  <li class="heading">
+    <h2><%= @user.name %></h2>
+  </li>
+  <li class="content_options">
+    <% if current_user.is_admin || current_user == @user %>
+        <%= link_to 'Edit', edit_user_path(@user) %>
+    <% end %>
+    <%= link_to 'Back', users_path %>
+    <%= link_to 'Send Message', new_user_message_path(current_user, :to_id => @user.id, :to_name => @user.username) %>
+  </li>
+</ul>
 
-<h1><%= @user.name %></h1>
-
-<div>
-<b>Username:</b>
-  <%= @user.username %>
+<div class="pro_info">
+  <h3>Username:</h3>
+  <p><%= @user.username %></p>
 </div>
 
-<div>
-  <b>Email:</b>
-  <%= @user.email %>
+<div class="pro_info">
+  <h3>Email:</h3>
+  <p><a href="mailto:<%= @user.email %>"><%= @user.email %></a></p>
 </div>
 
-<div>
-  <b>Phone number:</b>
-  <%= @user.phone_number %>
+<div class="pro_info">
+  <h3>Phone number:</h3>
+  <p><%= @user.phone_number %></p>
 </div>
 
-<div>
-  <b>Login Count</b>
-  <%= @user.login_count %>
+<div class="pro_info">
+  <h3>Login Count</h3>
+  <p><%= @user.login_count %></p>
 </div>
 
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>

@@ -13,6 +13,10 @@ gem 'authlogic'
 gem "nifty-generators", :group => :development
 gem "rails-erd"
 gem 'railroady'
+gem 'pdfkit', '0.4.6'
+gem 'kaminari'
+
+
 
 
 # Use unicorn as the web server

@@ -1,14 +1,16 @@
 <h2>Registered Users</h2>
 <div id="user_search">
-  <h3>Search By User Name</h3>
+  <h3>Search By Username</h3>
   <% form_tag users_path, :method => 'get' do %>
      <%= text_field_tag :search, params[:search] %>
-      <%= submit_tag "Search Users", :name => nil %>
+      <%= submit_tag "Search Users", :name => nil, :class => 'search_action_button' %>
   <% end %>
 
 </div>
 
-<table border="1">
+<%= paginate @users %>
+
+<table border="0">
   <tr>
     <th>Username</th>
     <th>First Name</th>
@@ -22,7 +24,6 @@
     <td><%= user.first_name %></td>
     <td><%= user.second_name %></td>
     <td><%= user.email %></td>
-    <td><%= user.phone_number %></td>
     <td><%= link_to 'Show', user %></td>
     <td><%= link_to 'Edit', edit_user_path(user) %></td>
     <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
@@ -32,4 +33,4 @@
 
 <br />
 
-<%= link_to 'New User', new_user_path %>
+<%= link_to 'New User', new_user_path, :class => 'action_button' %>

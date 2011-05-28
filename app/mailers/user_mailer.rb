@@ -9,7 +9,9 @@ class UserMailer < ActionMailer::Base
       recipients = role.users
       recipients.each do |rec|
         @user = rec
-        mail(:to => @user.email, :subject => "New Comment for CP #{@comment.review.critical_process.title}")
+        if @user.email && @user.comment_email
+          mail(:to => "#{@user.name} <#{@user.email}>", :subject => "New Comment for CP #{@comment.review.critical_process.cp_title}")
+        end
       end
     end
   end
@@ -21,7 +23,9 @@ class UserMailer < ActionMailer::Base
       recipients = role.users
       recipients.each do |rec|
         @user = rec
-        mail(:to => @user.email, :subject => "New Version created for CP #{@cp.title}")
+        if @user.email && @user.cp_change_email
+          mail(:to => "#{@user.name} <#{@user.email}>", :subject => "New Version created for CP #{@cp.cp_title}")
+        end
       end
     end
   end
@@ -33,7 +37,9 @@ class UserMailer < ActionMailer::Base
       recipients = role.users
       recipients.each do |rec|
         @user = rec
-        mail(:to => @user.email, :subject => "Changes made for CP #{@cp.title}")
+        if @user.email && @user.cp_change_email
+          mail(:to => "#{@user.name} <#{@user.email}>", :subject => "Changes made for CP #{@cp.cp_title}")
+        end
       end
     end
   end

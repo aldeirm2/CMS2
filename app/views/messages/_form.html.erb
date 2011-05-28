@@ -1,4 +1,4 @@
-<%= form_for(@message) do |f| %>
+<%= form_for([@user, @message]) do |f| %>
   <% if @message.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@message.errors.count, "error") %> prohibited this message from being saved:</h2>
@@ -11,6 +11,19 @@
     </div>
   <% end %>
 
+
+  <div class="field">
+    <% if params[:to_id] %>
+    <%= f.hidden_field :to_id, :value => params[:to_id] %>
+    <b>To: </b> <span id="to_user"><%= params[:to_name] %></span>
+    <% else %>
+    <label for="username">To:</label><br />  <input id="username" /><br />
+    <%= f.hidden_field :to_id %>
+    <% end %>
+  </div>
+  <div class="field">
+    <%= f.hidden_field :from_id %>
+  </div>
   <div class="field">
     <%= f.label :subject %><br />
     <%= f.text_field :subject %>
@@ -19,19 +32,11 @@
     <%= f.label :message_body %><br />
     <%= f.text_area :message_body %>
   </div>
+
   <div class="field">
-    <%= f.label :from_id %><br />
-    <%= f.text_field :from_id %>
-  </div>
-  <div class="field">
-    <%= f.label :to_id %><br />
-    <%= f.text_field :to_id %>
-  </div>
-  <div class="field">
-    <%= f.label :new_message %><br />
-    <%= f.check_box :new_message %>
+    <%= f.hidden_field :new_message, :value => 1%>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Send Message', :class => 'action_button' %>
   </div>
 <% end %>

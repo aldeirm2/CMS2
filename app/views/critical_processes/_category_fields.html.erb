@@ -1,50 +1,55 @@
 <div class="fields">
-  <div class="cat_title">
-  <%= f.label :category_title, "Category Title" %>
-  <%= link_to_remove_fields "remove", f %>
-  <br/>
-  <%= f.text_field :category_title, :rows => 1 %>
+  <div class="cat_area clearfix">
+    <div class="cat_title">
+      <%= f.label :category_title, "Category Title" %>
+      <%= link_to_remove_fields "remove", f %>
+      <br/>
+      <%= f.text_field :category_title, :rows => 1 %>
+    </div>
+    <div id='edit_category_maturity_container' class='maturity_container clearfix'>
+
+      <div id="edit_category_maturity_1" class="maturity_level_box">
+        <%= f.label :level_1_category, "Category Maturity Level 1" %>
+        <br/>
+        <%= f.text_area :level_1_category, :rows => 4, :cols => 40 %>
+      </div>
+
+      <div id="edit_category_maturity_2" class="maturity_level_box">
+        <%= f.label :level_2_category, "Category Maturity Level 2" %>
+        <br/>
+        <%= f.text_area :level_2_category, :rows => 4, :cols => 40 %>
+      </div>
+
+      <div id="edit_category_maturity_3" class="maturity_level_box">
+        <%= f.label :level_3_category, "Category Maturity Level 3" %>
+        <br/>
+        <%= f.text_area :level_3_category, :rows => 4, :cols => 40 %>
+      </div>
+
+      <div id="edit_category_maturity_4" class="maturity_level_box">
+        <%= f.label :level_4_category, "Category Maturity Level 4" %>
+        <br/>
+        <%= f.text_area :level_4_category, :rows => 4, :cols => 40 %>
+      </div>
+
+      <div id="edit_category_maturity_5" class="maturity_level_box">
+        <%= f.label :level_5_category, "Category Maturity Level 5" %>
+        <br/>
+        <%= f.text_area :level_5_category, :rows => 4, :cols => 40 %>
+      </div>
+
+    </div>
   </div>
-  <div id='edit_category_maturity_container' class='maturity_container clearfix'>
 
-    <div id="edit_category_maturity_1" class="maturity_level_box">
-      <%= f.label :level_1_category, "Category Maturity Level 1" %>
-      <br/>
-      <%= f.text_area :level_1_category, :rows => 4, :cols => 23 %>
-    </div>
+  <div>
+    <% if @critical_process.review && @critical_process.review.stage == 'approved' %>
+        <%= f.hidden_field :id, :value => '' %>
+    <% end %>
 
-    <div id="edit_category_maturity_2" class="maturity_level_box">
-      <%= f.label :level_2_category, "Category Maturity Level 2" %>
-      <br/>
-      <%= f.text_area :level_2_category, :rows => 4, :cols => 23 %>
-    </div>
-
-    <div id="edit_category_maturity_3" class="maturity_level_box">
-      <%= f.label :level_3_category, "Category Maturity Level 3" %>
-      <br/>
-      <%= f.text_area :level_3_category, :rows => 4, :cols => 23 %>
-    </div>
-
-    <div id="edit_category_maturity_4" class="maturity_level_box">
-      <%= f.label :level_4_category, "Category Maturity Level 4" %>
-      <br/>
-      <%= f.text_area :level_4_category, :rows => 4, :cols => 23 %>
-    </div>
-
-    <div id="edit_category_maturity_5" class="maturity_level_box">
-      <%= f.label :level_5_category, "Category Maturity Level 5" %>
-      <br/>
-      <%= f.text_area :level_5_category, :rows => 4, :cols => 23 %>
-    </div>
+    <% f.fields_for :capability_building_blocks do |builder| %>
+        <%= render 'capability_building_block_fields', :f => builder %>
+    <% end %>
+    <p><%= link_to_add_fields "Add CBB", f, :capability_building_blocks %></p>
 
   </div>
-  <% if @critical_process.review && @critical_process.review.stage == 'approved' %>
-      <%= f.hidden_field :id, :value => '' %>
-  <% end %>
-
-  <% f.fields_for :capability_building_blocks do |builder| %>
-      <%= render 'capability_building_block_fields', :f => builder %>
-  <% end %>
-  <p><%= link_to_add_fields "Add CBB", f, :capability_building_blocks %></p>
-  <hr>
 </div>

@@ -44,6 +44,7 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
+        # UserMailer.comment_email(@comment).deliver
         format.html { redirect_to(@comment.review.critical_process, :notice => 'Comment was successfully added.') }
         format.xml  { render :xml => @comment, :status => :created, :location => @comment }
       #  format.js { redirect_to(@comment.review.critical_process, :notice => 'Comment successfully added') }
