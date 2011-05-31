@@ -1,6 +1,3 @@
-// Place your application-specific JavaScript functions and classes here
-// This file is automatically included by javascript_include_tag :defaults
-
 // accepts the link tag which is passed in
 function remove_fields(link) {
     $(link).prev('input[type=hidden]').val("1");
@@ -13,15 +10,7 @@ function add_fields(link, association, content) {
     $(link).parent().before(content.replace(regexp, new_id));
 }
 
-
-$(function () {
-    $('input[id=date]').datepicker();
-});
-
-
 $(function() {
-// blah blah
-
     $("#term_link").click(function() {
         console.log('clicked');
         $("#new_key_term_dialog").dialog('open');
@@ -31,15 +20,14 @@ $(function() {
         autoOpen: false,
         title: 'Add Key Term'
     });
-
-// more blah blah
 });
 
-var addToTopics = function() {
+// Method which returns a string value of the topics selected by a user when leaving a comment.
+var commentTopics = function() {
     var result = "";
     var checkedTopics = $(".topic_checkbox:checked");
     $.each(checkedTopics, function(i, topic) {
-        if(i == 0) {
+        if (i == 0) {
             result = result + $(topic).attr('value');
         }
         else {
@@ -49,14 +37,48 @@ var addToTopics = function() {
     return result;
 };
 
-$(function(){
-$(document).load($("#comment_form").submit(function() {
-    var ListOfTopics = addToTopics();
-    $('#comment_topics').val(ListOfTopics);
-    return true;
+// Method to add the selected topics of the user when leaving a comment on a CP.
+$(function() {
+    $(document).load($("#comment_form").submit(function() {
+        var ListOfTopics = commentTopics();
+        $('#comment_topics').val(ListOfTopics);
+        return true;
 
-}));
+    }));
 });
+
+// Method to ensure that a user has selected a user to send a message to
+$(function() {
+    $(document).load($("#new_message").submit(function() {
+
+        if ($('#message_to_id').val() == '') {
+            alert('Please Select a User to send to');
+            return false;
+        }
+        else {
+
+            return true;
+        }
+    }));
+});
+
+// Method to ensure that a title has been entered for a CP before its created.
+$(function() {
+    $(document).load($("#new_critical_process").submit(function() {
+
+        if ($('#critical_process_cp_title').val() == '') {
+            alert('CP must have a title before its created');
+            return false;
+        }
+        else {
+
+            return true;
+        }
+    }));
+});
+
+
+
 // This function handles style and display changes for each next button click
 
 function wizardNext() {
@@ -140,7 +162,6 @@ function wizardNext() {
         // Disable/enable buttons when reach reach start and review steps
 
         document.getElementById('ButtonNext').disabled = 'disabled';
-
 
 
         // Set new step to display and turn off display of current step
@@ -263,34 +284,34 @@ function wizardPrevious() {
 
 }
 
-
-	$(function() {
-		var cache = {},
-			lastXhr;
-		$( "#username" ).autocomplete({
-			minLength: 1,
-			source: function( request, response ) {
-				var term = request.term;
-				if ( term in cache ) {
-					response( cache[ term ] );
-					return;
-				}
-
-				lastXhr = $.getJSON( "/usernames", request, function( data, status, xhr ) {
-					cache[ term ] = data;
-					if ( xhr === lastXhr ) {
-						response( data );
-					}
-				});
-			},
-            select: function( event, ui ) {
-                $('#message_to_id').val(ui.item.id);
-			},
-            change: function(event, ui) {
-                if ($('#username').val().length == 0){
-                    $('#message_to_id').val('');
-                }
+// Atuocomplete method used to display the usernames to the user which were return from the controller method 'query'
+$(function() {
+    var cache = {},
+            lastXhr;
+    $("#username").autocomplete({
+        minLength: 1,
+        source: function(request, response) {
+            var term = request.term;
+            if (term in cache) {
+                response(cache[ term ]);
+                return;
             }
 
-		});
-	});
+            lastXhr = $.getJSON("/usernames", request, function(data, status, xhr) {
+                cache[ term ] = data;
+                if (xhr === lastXhr) {
+                    response(data);
+                }
+            });
+        },
+        select: function(event, ui) {
+            $('#message_to_id').val(ui.item.id);
+        },
+        change: function(event, ui) {
+            if ($('#username').val().length == 0) {
+                $('#message_to_id').val('');
+            }
+        }
+
+    });
+});

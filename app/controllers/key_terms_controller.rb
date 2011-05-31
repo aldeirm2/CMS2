@@ -4,7 +4,7 @@ class KeyTermsController < ApplicationController
   # GET /key_terms
   # GET /key_terms.xml
   def index
-    @key_terms = KeyTerm.all
+    @key_terms = KeyTerm.scoped.order('term').page(params[:page]).per(5)
 
     respond_to do |format|
       format.html # index.html.erb

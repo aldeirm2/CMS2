@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  #authorize_resource
+
   # GET /users
   # GET /users.xml
   def index

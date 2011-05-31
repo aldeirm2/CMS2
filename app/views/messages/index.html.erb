@@ -2,37 +2,39 @@
 
 
 <% if current_user.received_messages.count > 0 %>
-<table>
-  <tr>
-    <th>From</th>
-    <th>Subject</th>
-    <th>Body</th>
-    <th>Date</th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @messages.each do |message| %>
-  <% if message.new_message %>
-      <tr class="inbox_new_message">
-  <% else %>
+    <table>
       <tr>
-  <% end %>
+        <th>From</th>
+        <th>Subject</th>
+        <th>Body</th>
+        <th>Date</th>
+      </tr>
 
-    <td class="inbox_name"><%= link_to message.sender.username, message.sender %></td>
-    <td class="inbox_sub"><%= message.subject %></td>
-    <td class="inbox_body"><%= message.message_body[0..70] %></td>
-    <td class="inbox_date"><%= message.created_at.strftime("%H:%M (%d %b)") %></td>
-    <td><%= link_to 'Show', [current_user, message] %></td>
-    <td><%= link_to 'Destroy', [current_user, message] , :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
+      <% @messages.each do |message| %>
+          <% if message.new_message %>
+              <tr class="inbox_new_message">
+          <% else %>
+              <tr>
+          <% end %>
+
+          <td class="inbox_name"><%= link_to message.sender.username, message.sender %></td>
+          <td class="inbox_sub"><%= message.subject %></td>
+          <td class="inbox_body"><%= message.message_body[0..70] %></td>
+          <% if message.created_at < 1.day.ago %>
+              <td class="inbox_date"><%= message.created_at.strftime("%d %b") %></td>
+          <% elsif message.created_at > 1.day.ago %>
+              <td class="inbox_date"><%= message.created_at.strftime("%H:%M") %></td>
+          <% end %>
+          <td><%= link_to 'Show', [current_user, message] %></td>
+          <td><%= link_to 'Destroy', [current_user, message], :confirm => 'Are you sure?', :method => :delete %></td>
+          </tr>
+      <% end %>
+    </table>
 <% else %>
-<p>You dont have any messages</p>
+    <p>You dont have any messages</p>
 
 <% end %>
 
-<br />
+<br/>
 
 <%= link_to 'New Message', new_user_message_path, :class => 'action_button' %>

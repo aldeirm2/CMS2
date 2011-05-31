@@ -1,14 +1,8 @@
 <title>Edit CP Conflict</title>
 
-<p>Someone edited the CP at the same time you did. Please re-apply your changes to the product.</P>
+<h2 class="conflict">Conflict:</h2>
+<p>Someone edited the CP at the same time you did. Please re-apply your changes to the CP.</P>
 
-<h2>Your Submission:</h2>
-<pre>
-<% params[:critical_process].each do |name, value| %>
-  <%= h name.humanize %>: <%= h value %>
-<% end %>
-</pre>
-
-<h2>Edit Product:</h2>
+<h2>Edit CP:</h2>
 
 <%= render 'form' %>

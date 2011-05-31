@@ -12,18 +12,15 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :comment %><br />
+    <%= f.label :comment, "Comment" %><br />
     <%= f.text_area :comment %>
   </div>
+
   <div class="field">
-    <%= f.label :user_id %><br />
-    <%= f.text_field :user_id %>
-  </div>
-  <div class="field">
-    <%= f.label :review_id %><br />
-    <%= f.text_field :review_id %>
+    <%= f.label :topics, 'Topics' %><br />
+    <%= f.text_area( :topics, :cols => 40, :rows => 1)%>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit :class => 'action_button' %>
   </div>
 <% end %>

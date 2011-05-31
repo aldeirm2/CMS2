@@ -1,7 +1,9 @@
 class MacroProcess < ActiveRecord::Base
+
   has_many :critical_processes
 
-
+  # Method user to return an array of 'authorized' critical processes available to to a access for a particular user for
+  # a macro process
   def authorized_critical_processes(user)
     critical_processes = []
 
@@ -18,6 +20,7 @@ class MacroProcess < ActiveRecord::Base
     return critical_processes
   end
 
+  # Method used to get a macro process's styling number, used to give the process a unique number to apply some color in CSS
   def get_macro_style_number
     if self.name == "Managing IT Like a Business"
       return 0
