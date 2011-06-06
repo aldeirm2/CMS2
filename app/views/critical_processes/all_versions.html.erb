@@ -1,7 +1,7 @@
-<% if @critical_processes.size > 1  %>
-<h2><%= @critical_processes.size %> different versions for <%= @critical_processes.first.latest_approved_revision.cp_title %></h2>
+<% if @critical_processes.size > 1 %>
+    <h2>Different versions for <%= @critical_processes.first.cp_title %></h2>
 <% else %>
-<h2>This is the only available version for <%= @critical_processes.first.cp_title %></h2>
+    <h2>This is the only available version for <%= @critical_processes.first.cp_title %></h2>
 <% end %>
 
 <table>
@@ -19,8 +19,10 @@
         <td><%= critical_process.updated_at.strftime("%d/%m/%Y") %></td>
         <td><%= critical_process.review.updated_at.strftime("%d/%m/%Y") %></td>
         <td><%= link_to 'Show', critical_process %></td>
-        <td><%= link_to 'Edit', edit_critical_process_path(critical_process) %></td>
-        <td><%= link_to 'Destroy', critical_process, :confirm => 'Are you sure?', :method => :delete %></td>
+        <% if current_user.is_admin || current_user.can_edit(critical_process) %>
+            <td><%= link_to 'Edit', edit_critical_process_path(critical_process) %></td>
+            <td><%= link_to 'Destroy', critical_process, :confirm => 'Are you sure?', :method => :delete %></td>
+        <% end %>
       </tr>
   <% end %>
 </table>
@@ -28,5 +30,5 @@
 <br/>
 
 <% if current_user.is_admin %>
-<%= link_to 'New Critical process', new_critical_process_path, :class => 'action_button' %>
+    <%= link_to 'New Critical process', new_critical_process_path, :class => 'action_button' %>
 <% end %>

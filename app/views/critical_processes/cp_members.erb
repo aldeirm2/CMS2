@@ -1,0 +1,53 @@
+<h2>Reviewers and Editors for <%= @critical_process.cp_title %></h2>
+
+<% if @editors.size > 0 %>
+    <h3>CP Editors</h3>
+    <table>
+      <tr>
+        <th>Username</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+      </tr>
+
+      <% @editors.each do |user| %>
+          <tr>
+            <td><%= user.username %></td>
+            <td><%= user.first_name %></td>
+            <td><%= user.second_name %></td>
+            <td><%= user.email %></td>
+            <td><%= link_to 'Show', user %></td>
+            <td><%= link_to 'Send Message', new_user_message_path(current_user, :to_id => user.id, :to_name => user.username) %></td>
+          </tr>
+      <% end %>
+    </table>
+<% else %>
+    <p>This CP has no Editors</p><br/>
+<% end %>
+
+
+<% if @reviewers.size > 0 %>
+    <h3>CP Reviewers</h3>
+    <table>
+      <tr>
+        <th>Username</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+      </tr>
+
+      <% @reviewers.each do |user| %>
+          <tr>
+            <td><%= user.username %></td>
+            <td><%= user.first_name %></td>
+            <td><%= user.second_name %></td>
+            <td><%= user.email %></td>
+            <td><%= link_to 'Show', user %></td>
+            <td><%= link_to 'Send Message', new_user_message_path(current_user, :to_id => user.id, :to_name => user.username) %></td>
+          </tr>
+      <% end %>
+    </table>
+
+<% else %>
+    <p>This CP has no Reviewers</p>
+<% end %>

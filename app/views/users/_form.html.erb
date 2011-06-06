@@ -1,81 +1,104 @@
 <%= form_for(@user) do |f| %>
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+    <% if @user.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
-      <ul>
-      <% @user.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+          <ul>
+            <% @user.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <div class="field">
+      <%= f.label :first_name, 'First Name' %>
+      <br/>
+      <%= f.text_field :first_name %>
     </div>
-  <% end %>
-  <div class="field">
-    <%= f.label :first_name, 'First Name' %><br />
-    <%= f.text_field :first_name %>
-  </div>
     <div class="field">
-    <%= f.label :second_name, "Last Name" %><br />
-    <%= f.text_field :second_name %>
-  </div>
-  <div class="field">
-    <%= f.label :username %><br />
-    <%= f.text_field :username %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :phone_number, "Mobile Number" %><br />
-    <%= f.text_field :phone_number %>
-  </div>
-  <div class="field">
-    <%= f.label :cp_change_email, 'Receive email notifications in event of CP change?' %>
-    <%= f.check_box :cp_change_email, :value => @user.cp_change_email%>
-  </div>
-  <div class="field">
-    <%= f.label :comment_email, 'Receive email notifications when someone places a comment?' %>
-    <%= f.check_box :comment_email, :value => @user.cp_change_email%>
-  </div>
-  <% if @user == current_user || !current_user %>
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password %>
-  </div>
+      <%= f.label :second_name, "Last Name" %>
+      <br/>
+      <%= f.text_field :second_name %>
+    </div>
     <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation %>
-  </div>
-  <% end %>
-  <% if current_user && current_user.is_admin %>
+      <%= f.label :username %>
+      <br/>
+      <%= f.text_field :username %>
+    </div>
+    <div class="field">
+      <%= f.label :email %>
+      <br/>
+      <%= f.text_field :email %>
+    </div>
+    <div class="field">
+      <%= f.label :phone_number, "Mobile Number" %>
+      <br/>
+      <%= f.text_field :phone_number %>
+    </div>
+    <div class="field">
+      <%= f.label :cp_change_email, 'Receive email notifications in event of CP change?' %>
+      <%= f.check_box :cp_change_email, :value => @user.cp_change_email %>
+    </div>
+    <div class="field">
+      <%= f.label :comment_email, 'Receive email notifications when someone places a comment?' %>
+      <%= f.check_box :comment_email, :value => @user.cp_change_email %>
+    </div>
+    <% if @user == current_user || !current_user %>
+        <div class="field">
+          <%= f.label :password %>
+          <br/>
+          <%= f.password_field :password %>
+        </div>
+        <div class="field">
+          <%= f.label :password_confirmation %>
+          <br/>
+          <%= f.password_field :password_confirmation %>
+        </div>
+    <% end %>
+    <% if current_user && current_user.is_admin %>
 
         <h4>Review Roles:</h4>
-  <p><% for role in Role.where(:review => true) %>
-        <%= check_box_tag "user[roles_as_reviewer_ids][]", role.id, @user.roles.include?(role) %>
-        <%= role.name %>
-     <% end %>
-  </p>
-      <h4>Edit Roles:</h4>
-  <p><% for role in Role.where(:edit => true) %>
-        <%= check_box_tag "user[roles_as_editor_ids][]", role.id, @user.roles.include?(role) %>
-        <%= role.name %>
-     <% end %>
-  </p>
-     <h4>Admin Role:</h4>
-  <p><% for role in Role.where(:admin => true) %>
-        <%= check_box_tag "user[role_as_admin_ids][]", role.id, @user.roles.include?(role) %>
-        <%= role.name %>
-     <% end %>
-  </p>
-  <% elsif current_user %>
-    <p>Your Assigned Roles are: <br/>
-      <% for role in @user.roles %>
-          <%= role.name %> <br/>
-      <% end %>
-    </p>
-  <% end %>
-  <div class="actions">
-    <%= f.submit :class => 'action_button'%>
-  </div>
+        <p>
+          <% for role in Role.where(:review => true) %>
+              <%= check_box_tag "user[roles_as_reviewer_ids][]", role.id, @user.roles.include?(role) %>
+              <%= role.name %>
+          <% end %>
+        </p>
+        <h4>Edit Roles:</h4>
+        <p>
+          <% for role in Role.where(:edit => true) %>
+              <%= check_box_tag "user[roles_as_editor_ids][]", role.id, @user.roles.include?(role) %>
+              <%= role.name %>
+          <% end %>
+        </p>
+        <h4>Admin Role:</h4>
+        <p>
+          <% for role in Role.where(:admin => true) %>
+              <%= check_box_tag "user[role_as_admin_ids][]", role.id, @user.roles.include?(role) %>
+              <%= role.name %>
+          <% end %>
+        </p>
+    <% elsif current_user %>
+        <p><h4>Your Assigned Roles are: </h4>
+
+        <% for role in Role.where(:review => true) %>
+            <% if current_user.roles.include?(role) %>
+                <%= hidden_field_tag "user[roles_as_reviewer_ids][]", role.id %>
+                <%= role.name %>
+            <% end %>
+        <% end %>
+
+
+        <p>
+          <% for role in Role.where(:edit => true) %>
+              <% if current_user.roles.include?(role) %>
+                  <%= hidden_field_tag "user[roles_as_editor_ids][]", role.id %>
+                  <%= role.name %>
+              <% end %>
+          <% end %>
+        </p>
+    <% end %>
+    <div class="actions">
+      <%= f.submit :class => 'action_button' %>
+    </div>
 <% end %>

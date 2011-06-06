@@ -27,6 +27,7 @@ CMS::Application.routes.draw do
       post :key_term_add
       post :key_term_remove
       get :all_versions
+      get :cp_members
     end
   end
 

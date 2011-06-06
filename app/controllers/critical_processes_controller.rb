@@ -6,7 +6,6 @@ class CriticalProcessesController < ApplicationController
   # GET /critical_processes
   # GET /critical_processes.xml
   def index
-    #@critical_processes = CriticalProcess.all.uniq_by {|x| x.cp_secondary_id }
     @critical_processes = CriticalProcess.authorized_critical_processes(current_user)
     respond_to do |format|
       format.html # index.html.erb
@@ -87,12 +86,12 @@ class CriticalProcessesController < ApplicationController
     @critical_process = CriticalProcess.find(params[:id])
     if params[:critical_process]["cp_secondary_id"].blank?
       @critical_process.update_attributes(params[:critical_process])
-     # UserMailer.review_edit(@critical_process).deliver
+       UserMailer.review_edit(@critical_process).deliver
       redirect_to(@critical_process, :notice => 'Critical process was successfully updated.')
     else
       revision = CriticalProcess.create(params[:critical_process])
       revision.update_attribute :cp_secondary_id, params[:critical_process]['cp_secondary_id']
-     # UserMailer.new_version(revision).deliver
+       UserMailer.new_version(revision).deliver
       redirect_to(revision, :notice => 'Revision was successfully updated.')
     end
 
@@ -151,9 +150,15 @@ class CriticalProcessesController < ApplicationController
     end
   end
 
-
   def review_cps
     @critical_processes = current_user.pending_review
+  end
 
+  def cp_members
+    if params[:id]
+      @critical_process = CriticalProcess.find(params[:id])
+      @reviewers = @critical_process.reviewers
+      @editors = @critical_process.editors
+    end
   end
 end

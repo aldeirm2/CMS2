@@ -14,8 +14,10 @@
         <td class="key_term"><%= link_to key_term.term, key_term %></td>
         <td class="key_term_meaning"><%= key_term.meaning[0..70] %></td>
         <td><%= link_to 'Show', key_term %></td>
-        <td><%= link_to 'Edit', edit_key_term_path(key_term) %></td>
-        <td><%= link_to 'Destroy', key_term, :confirm => 'Are you sure?', :method => :delete %></td>
+        <% if current_user.authorised %>
+            <td><%= link_to 'Edit', edit_key_term_path(key_term) %></td>
+            <td><%= link_to 'Destroy', key_term, :confirm => 'Are you sure?', :method => :delete %></td>
+        <% end %>
       </tr>
   <% end %>
 </table>

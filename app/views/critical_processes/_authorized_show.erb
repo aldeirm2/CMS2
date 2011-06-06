@@ -8,6 +8,7 @@
     <% end %>
     <%= link_to 'Back', macro_processes_path %>
     <%= link_to 'Show All Versions', all_versions_critical_process_path(@critical_process.cp_secondary_id) %>
+    <%= link_to 'Show All Members', cp_members_critical_process_path(@critical_process.cp_secondary_id) %>
     <%= link_to 'Download (PDF)', critical_process_path(@critical_process, :format => 'pdf') %>
   </li>
 </ul>
@@ -142,7 +143,7 @@
         <% for lesson in @lessons %>
             <tr>
               <td class="lesson_question">
-                <input type="checkbox" class="topic_checkbox" value="Lesson: <%= lesson.lesson_title %>"><%= lesson.lesson_title %>
+                <%= lesson.lesson_title %>
               </td>
               <td class="lesson_def"><%= lesson.lesson_definition %></td>
             </tr>
@@ -227,28 +228,22 @@
 <% if current_user.can_review(@critical_process) || current_user.is_admin %>
     <div id='review_form'>
 
-      <!-- have a button that's only visible to admins and editors which depending on the stage of the CP allows them to approve it to the next stage. -->
+      <!-- have a button that's only visible to admins and reviewers which depending on the stage of the CP allows them to approve it to the next stage. -->
       <% @review = @critical_process.review %>
       <%= form_for(@review) do |f| %>
-
-
           <% if @review.stage == 'approved' %>
-
               <div class="field">
                 <%= f.hidden_field :stage, :value => '3' %>
               </div>
               This CP has been Approved.
               <div class="actions">
-                <%= f.submit "Pull back CP to level 3" %>
+                <%= f.submit "Pull back CP to level 3", :class => 'action_button' %>
               </div>
           <% else %>
-
               <div class="field">
                 <%= f.hidden_field :stage, :value => @new_stage %>
-
               </div>
               <div class="actions">
-
                 <%= f.submit "Approve CP to level #{@new_stage}", :class => "action_button" %>
               </div>
           <% end %>

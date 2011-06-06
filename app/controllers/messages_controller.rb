@@ -53,12 +53,11 @@ class MessagesController < ApplicationController
   # DELETE /messages/1
   # DELETE /messages/1.xml
   def destroy
-    @message = current_user.received_messages(params[:id])
+    @message = current_user.received_messages.find(params[:id])
     @message.destroy
 
     respond_to do |format|
-      format.html { redirect_to(messages_url) }
-      format.xml  { head :ok }
+      format.html { redirect_to(user_messages_path(current_user)) }
     end
   end
 

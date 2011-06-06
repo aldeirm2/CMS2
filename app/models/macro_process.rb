@@ -17,7 +17,7 @@ class MacroProcess < ActiveRecord::Base
       end
       critical_processes << cps.first unless cps.blank?
     end
-    return critical_processes
+     critical_processes
   end
 
   # Method used to get a macro process's styling number, used to give the process a unique number to apply some color in CSS

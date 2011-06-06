@@ -1,27 +1,27 @@
 <% if @critical_processes.size > 0 %>
-<h2>Critical Processes Under Review: <%= @critical_processes.size %></h2>
-<table>
-  <tr>
-    <th>Stage</th>
-    <th>Title</th>
-    <th>Last Update</th>
-    <th>Last Approval </th>
-  </tr>
-
-  <% @critical_processes.each do |critical_process| %>
+    <h2>Critical Processes Under Review: <%= @critical_processes.size %></h2>
+    <table>
       <tr>
-        <td><%= critical_process.review.stage %></td>
-        <td><%= critical_process.cp_title %></td>
-        <td><%= critical_process.updated_at.strftime("%d/%m/%Y") %></td>
-        <td><%= critical_process.review.updated_at.strftime("%d/%m/%Y") %></td>
-        <td><%= link_to 'Show', critical_process %></td>
-        <% if can? :edit, critical_process %>
-        <td><%= link_to 'Edit', edit_critical_process_path(critical_process) %></td>
-        <td><%= link_to 'Destroy', critical_process, :confirm => 'Are you sure?', :method => :delete %></td>
-        <% end %>
+        <th>Stage</th>
+        <th>Title</th>
+        <th>Last Update</th>
+        <th>Last Approval</th>
       </tr>
-  <% end %>
-</table>
+
+      <% @critical_processes.each do |critical_process| %>
+          <tr>
+            <td><%= critical_process.review.stage %></td>
+            <td><%= critical_process.cp_title %></td>
+            <td><%= critical_process.updated_at.strftime("%d/%m/%Y") %></td>
+            <td><%= critical_process.review.updated_at.strftime("%d/%m/%Y") %></td>
+            <td><%= link_to 'Show', critical_process %></td>
+            <% if can? :edit, critical_process %>
+                <td><%= link_to 'Edit', edit_critical_process_path(critical_process) %></td>
+                <td><%= link_to 'Destroy', critical_process, :confirm => 'Are you sure?', :method => :delete %></td>
+            <% end %>
+          </tr>
+      <% end %>
+    </table>
 <% else %>
-<h3>No Critical Processes Under Review</h3>
+    <h3>No Critical Processes Under Review</h3>
 <% end %>

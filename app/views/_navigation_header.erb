@@ -2,39 +2,38 @@
   <div id="main_link">
     <div id="processes">
       <!--<h1>IVI IT-CMF</h1>-->
-      <img alt="IVI IT-CMF"src="/images/ivi-logo.jpg" />
+      <img alt="IVI IT-CMF" src="/images/ivi-logo.jpg"/>
     </div>
     <div id="user_options">
-    <% if current_user %>
-        Hello <%= current_user.first_name %>. Not you?
-        <%= link_to "Sign Out", logout_path %>
-        <%= link_to 'Edit Profile', edit_user_path(current_user) %>
-
-    <% else %>
-        <%= link_to "Sign Up", new_user_path %> Or
-        <%= link_to "Sign In", login_path %>
-    <% end %>
-     <div>
-       <h2>Critical Processes: <%= CriticalProcess.cp_count %></h2>
-     </div>
-  </div>
+      <% if current_user %>
+          Hello <%= current_user.first_name %>. Not you?
+          <%= link_to "Sign Out", logout_path %>
+          <%= link_to 'Edit Profile', edit_user_path(current_user) %>
+          <div>
+            <h2>Critical Processes: <%= CriticalProcess.cp_count(current_user) %></h2>
+          </div>
+      <% else %>
+          <%= link_to "Sign Up", new_user_path %> Or
+          <%= link_to "Sign In", login_path %>
+      <% end %>
     </div>
   </div>
+</div>
 
 
 <div id="links">
-   <%= link_to "Home", macro_processes_path, :class => 'hd_link' %>
-   <% if current_user %>
+  <%= link_to "Home", macro_processes_path, :class => 'hd_link' %>
+  <% if current_user %>
       <%= link_to "Key Terms", key_terms_path, :class => 'hd_link' %>
-      <%  if current_user.new_messages_count > 0 %>
-      <%= link_to "Messages(#{current_user.new_messages_count})", user_messages_path(current_user), :class => "new_messages hd_link" %>
+      <% if current_user.new_messages_count > 0 %>
+          <%= link_to "Messages(#{current_user.new_messages_count})", user_messages_path(current_user), :class => "new_messages hd_link" %>
       <% else %>
-      <%= link_to "Messaging", user_messages_path(current_user), :class => 'hd_link'%>
+          <%= link_to "Messaging", user_messages_path(current_user), :class => 'hd_link' %>
       <% end %>
-      <%= link_to "List of Users", users_path, :class => 'hd_link'%>
+      <%= link_to "List of Users", users_path, :class => 'hd_link' %>
       <% if current_user.pending_review.size > 0 %>
-      <%= link_to "Pending Review", review_cps_path, :class => 'hd_link' %>
+          <%= link_to "Pending Review", review_cps_path, :class => 'hd_link' %>
       <% end %>
-   <% end %>
+  <% end %>
 
 </div>

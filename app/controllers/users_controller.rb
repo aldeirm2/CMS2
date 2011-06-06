@@ -1,14 +1,12 @@
 class UsersController < ApplicationController
 
-
-  # GET /users
-  # GET /users.xml
+  # The Index page, where all users within the system will be displayed,
   def index
     @users = User.search(params[:search]).order('username').page(params[:page]).per(10)
     authorize! :index, User
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @users }
+      format.xml { render :xml => @users }
     end
   end
 
@@ -19,7 +17,7 @@ class UsersController < ApplicationController
     authorize! :read, @user
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @user }
+      format.xml { render :xml => @user }
     end
   end
 
@@ -30,7 +28,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @user }
+      format.xml { render :xml => @user }
     end
   end
 
@@ -48,10 +46,10 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         format.html { redirect_to(root_url, :notice => 'Registration Successful.') }
-        format.xml  { render :xml => @user, :status => :created, :location => @user }
+        format.xml { render :xml => @user, :status => :created, :location => @user }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @user.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -63,6 +61,7 @@ class UsersController < ApplicationController
     params[:user][:role_as_admin_ids] ||= []
     params[:user][:roles_as_editor_ids] ||= []
     params[:user][:roles_as_reviewer_ids] ||= []
+
     @user = User.find(params[:id])
 
     respond_to do |format|
@@ -82,7 +81,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(users_url) }
-      format.xml  { head :ok }
+      format.xml { head :ok }
     end
   end
 end

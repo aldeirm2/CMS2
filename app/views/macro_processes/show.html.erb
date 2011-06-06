@@ -1,27 +1,29 @@
 <p id="notice"><%= notice %></p>
 <ul class="top_content clearfix">
   <li class="heading">
-<h2><%= @macro_process.name %></h2>
-</li>
+    <h2><%= @macro_process.name %></h2>
+  </li>
 
-<li class="content_options">
-<a href="<%= "/critical_processes/new?macro_process=#{@macro_process.id}" %>">Create New Critical Process</a>
-<%= link_to 'Edit', edit_macro_process_path(@macro_process) %>
-<%= link_to 'Back', macro_processes_path %>
-</li>
+  <li class="content_options">
+    <% if current_user.is_admin %>
+        <a href="<%= "/critical_processes/new?macro_process=#{@macro_process.id}" %>">Create New Critical Process</a>
+        <%= link_to 'Edit', edit_macro_process_path(@macro_process) %>
+    <% end %>
+    <%= link_to 'Back', macro_processes_path %>
+  </li>
 </ul>
 <% if @macro_process.authorized_critical_processes(current_user).size > 0 %>
-<div class="critical_processes">
-  <div id="container_<%= @macro_process.get_macro_style_number %>" class="index_macro_container">
-      <ul>
-      <li class="macro_heading"><h3><%= link_to @macro_process.name, @macro_process %></h3></li>
-      <% @macro_process.authorized_critical_processes(current_user).each do |cp| %>
+    <div class="critical_processes">
+      <div id="container_<%= @macro_process.get_macro_style_number %>" class="index_macro_container">
+        <ul>
+          <li class="macro_heading"><h3><%= link_to @macro_process.name, @macro_process %></h3></li>
+          <% @macro_process.authorized_critical_processes(current_user).each do |cp| %>
 
-          <li class="pro_link"><%= link_to cp.cp_title, cp %></li>
-      <% end %>
-      </ul>
+              <li class="pro_link"><%= link_to cp.cp_title, cp %></li>
+          <% end %>
+        </ul>
+      </div>
     </div>
-</div>
 
 <% else %>
     <h3>Sorry But This Macro Process Has No Underlying Critical Processes </h3>
